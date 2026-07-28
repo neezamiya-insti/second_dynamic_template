@@ -96,11 +96,26 @@ export default function TestimonialsSection() {
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // NEW: State for mobile detection
 
   const sectionRef = useRef<HTMLElement>(null);
   const frontCardRef = useRef<HTMLDivElement>(null);
   const stackWrapRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ startX: 0, isDown: false, moved: false });
+
+  // ---- Detect mobile screen size ----
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // ---- Intersection Observer for scroll animations ----
   useEffect(() => {
@@ -358,8 +373,8 @@ export default function TestimonialsSection() {
                 const isFront = (i - current + total) % total === 0;
                 // Responsive card transforms
                 const cardStyle = getCardStyle(i);
-                // Adjust for mobile
-                if (window.innerWidth < 640) {
+                // FIXED: Use isMobile state instead of directly accessing window
+                if (isMobile) {
                   const diff = (i - current + total) % total;
                   if (diff === 0) {
                     // Keep front card same

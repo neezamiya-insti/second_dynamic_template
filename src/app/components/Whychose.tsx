@@ -21,6 +21,7 @@ export default function SchoolHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // Intersection Observer for scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -50,7 +51,11 @@ export default function SchoolHero() {
 
   // Recompute the scale factor whenever the available width changes, so the
   // design shrinks/grows smoothly instead of jumping between breakpoints.
+  // FIXED: Added window check
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+
     function updateScale() {
       const el = wrapperRef.current;
       if (!el) return;

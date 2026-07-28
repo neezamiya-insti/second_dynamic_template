@@ -28,11 +28,15 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll event
+  // Handle scroll event - FIXED: Check if window is defined
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);

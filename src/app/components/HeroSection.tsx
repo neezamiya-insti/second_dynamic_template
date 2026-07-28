@@ -57,7 +57,20 @@ export default function HeroSection() {
 
   // Set loaded state after component mounts
   useEffect(() => {
-    setIsLoaded(true);
+    // Defer state update to next animation frame to avoid synchronous setState
+    // which can trigger cascading renders and lint warnings.
+    let raf = 0;
+    if (typeof window !== "undefined" && window.requestAnimationFrame) {
+      raf = window.requestAnimationFrame(() => setIsLoaded(true));
+    } else {
+      // Fallback for environments without requestAnimationFrame
+      const t = setTimeout(() => setIsLoaded(true), 0);
+      return () => clearTimeout(t);
+    }
+
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   // Auto slide change every 5 seconds
