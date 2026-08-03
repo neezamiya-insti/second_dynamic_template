@@ -76,6 +76,9 @@ export default function SchoolHero() {
   // shrink to fit the screen.
   const textScale = scale > 0 ? 1 / scale : 1;
 
+  // Check if mobile
+  const isMobile = scale < 0.6;
+
   return (
     <section
       ref={sectionRef}
@@ -109,7 +112,11 @@ export default function SchoolHero() {
           >
             <p
               className="text-center text-[13px] font-bold tracking-[7px] text-[#E8871E]"
-              style={{ transform: `scale(${textScale})`, transformOrigin: "top center" }}
+              style={{ 
+                transform: `scale(${textScale})`, 
+                transformOrigin: "top center",
+                fontSize: isMobile ? "10px" : "13px"
+              }}
             >
               Our Achievements
             </p>
@@ -124,17 +131,21 @@ export default function SchoolHero() {
           >
             <h1
               className="text-center text-[28px] font-bold leading-[1.28] text-[#0B2340] md:text-[39px]"
-              style={{ transform: `scale(${textScale})`, transformOrigin: "top center" }}
+              style={{ 
+                transform: `scale(${textScale})`, 
+                transformOrigin: "top center",
+                fontSize: isMobile ? "22px" : "28px"
+              }}
             >
               WHY CHOOSE US
             </h1>
           </div>
 
-          {/* Underline */}
+          {/* Underline - hidden on mobile, visible on desktop */}
           <div
             className={`absolute left-1/2 top-[130px] h-[2px] w-[150px] -translate-x-1/2 bg-[#E8871E] transition-all duration-1000 ease-out ${
               isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
-            }`}
+            } hidden md:block`}
             style={{ transitionDelay: "250ms" }}
           />
 
@@ -156,7 +167,7 @@ export default function SchoolHero() {
             </p>
           </div>
 
-          {/* Arc connectors */}
+          {/* Arc connectors - thicker on mobile */}
           <svg
             className="absolute left-0 top-0"
             width="1081"
@@ -166,47 +177,57 @@ export default function SchoolHero() {
             <path
               d="M342,330 C342,255 460,225 533,225 C606,225 724,255 724,330"
               stroke="#E8871E"
-              strokeWidth="6"
+              strokeWidth={isMobile ? "8" : "6"}
               fill="none"
             />
             <path
               d="M320,352 C280,360 285,420 283,494"
               stroke="#E8871E"
-              strokeWidth="3.4"
+              strokeWidth={isMobile ? "5" : "3.4"}
               fill="none"
               strokeLinecap="round"
             />
             <path
               d="M746,352 C786,360 790,420 786,494"
               stroke="#E8871E"
-              strokeWidth="3.4"
+              strokeWidth={isMobile ? "5" : "3.4"}
               fill="none"
               strokeLinecap="round"
             />
           </svg>
 
-          {/* Node 1 */}
+          {/* Node 1 - Center Top */}
           <div
-            className={`absolute left-[500px] top-[220px] flex h-[66px] w-[66px] items-center justify-center rounded-full border-[1.5px] border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
+            className={`absolute left-[500px] top-[220px] flex items-center justify-center rounded-full border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[150px]"
             }`}
-            style={{ transitionDelay: "400ms" }}
+            style={{ 
+              transitionDelay: "400ms",
+              width: isMobile ? "80px" : "66px",
+              height: isMobile ? "80px" : "66px",
+              borderWidth: isMobile ? "2.5px" : "1.5px"
+            }}
           >
-            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#E8871E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className={isMobile ? "h-9 w-9" : "h-7 w-7"} fill="none" stroke="#E8871E" strokeWidth={isMobile ? "2" : "1.6"} strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 3 1.5 8 12 13l10.5-5L12 3z" />
               <path d="M5.5 10.3V15c0 2 3 3.6 6.5 3.6s6.5-1.6 6.5-3.6v-4.7" />
               <path d="M22.5 8v6" />
             </svg>
           </div>
 
-          {/* Node 2 */}
+          {/* Node 2 - Left Top */}
           <div
-            className={`absolute left-[309px] top-[320px] flex h-[66px] w-[66px] items-center justify-center rounded-full border-[1.5px] border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
+            className={`absolute left-[309px] top-[320px] flex items-center justify-center rounded-full border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[150px]"
             }`}
-            style={{ transitionDelay: "500ms" }}
+            style={{ 
+              transitionDelay: "500ms",
+              width: isMobile ? "80px" : "66px",
+              height: isMobile ? "80px" : "66px",
+              borderWidth: isMobile ? "2.5px" : "1.5px"
+            }}
           >
-            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#E8871E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className={isMobile ? "h-9 w-9" : "h-7 w-7"} fill="none" stroke="#E8871E" strokeWidth={isMobile ? "2" : "1.6"} strokeLinecap="round" strokeLinejoin="round">
               <path d="M7 4h10v5a5 5 0 0 1-10 0V4z" />
               <path d="M7 5H4.5A2.5 2.5 0 0 0 7 9.5" />
               <path d="M17 5h2.5A2.5 2.5 0 0 1 17 9.5" />
@@ -215,14 +236,19 @@ export default function SchoolHero() {
             </svg>
           </div>
 
-          {/* Node 3 */}
+          {/* Node 3 - Right Top */}
           <div
-            className={`absolute left-[693px] top-[320px] flex h-[66px] w-[66px] items-center justify-center rounded-full border-[1.5px] border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
+            className={`absolute left-[693px] top-[320px] flex items-center justify-center rounded-full border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[150px]"
             }`}
-            style={{ transitionDelay: "500ms" }}
+            style={{ 
+              transitionDelay: "500ms",
+              width: isMobile ? "80px" : "66px",
+              height: isMobile ? "80px" : "66px",
+              borderWidth: isMobile ? "2.5px" : "1.5px"
+            }}
           >
-            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#E8871E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className={isMobile ? "h-9 w-9" : "h-7 w-7"} fill="none" stroke="#E8871E" strokeWidth={isMobile ? "2" : "1.6"} strokeLinecap="round" strokeLinejoin="round">
               <circle cx="9" cy="8" r="3.2" />
               <path d="M2.8 20.5c0-3.6 2.8-5.5 6.2-5.5s6.2 1.9 6.2 5.5" />
               <circle cx="17.5" cy="9" r="2.4" />
@@ -230,14 +256,19 @@ export default function SchoolHero() {
             </svg>
           </div>
 
-          {/* Node 4 */}
+          {/* Node 4 - Left Bottom */}
           <div
-            className={`absolute left-[250px] top-[490px] flex h-[66px] w-[66px] items-center justify-center rounded-full border-[1.5px] border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
+            className={`absolute left-[250px] top-[490px] flex items-center justify-center rounded-full border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[150px]"
             }`}
-            style={{ transitionDelay: "600ms" }}
+            style={{ 
+              transitionDelay: "600ms",
+              width: isMobile ? "80px" : "66px",
+              height: isMobile ? "80px" : "66px",
+              borderWidth: isMobile ? "2.5px" : "1.5px"
+            }}
           >
-            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#E8871E" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className={isMobile ? "h-9 w-9" : "h-7 w-7"} fill="none" stroke="#E8871E" strokeWidth={isMobile ? "2" : "1.7"} strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 21V12" />
               <path d="M9 21V9" />
               <path d="M15 21v-6" />
@@ -246,14 +277,19 @@ export default function SchoolHero() {
             </svg>
           </div>
 
-          {/* Node 5 */}
+          {/* Node 5 - Right Bottom */}
           <div
-            className={`absolute left-[753px] top-[490px] flex h-[66px] w-[66px] items-center justify-center rounded-full border-[1.5px] border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
+            className={`absolute left-[753px] top-[490px] flex items-center justify-center rounded-full border-[#E8871E] bg-white shadow-lg transition-all duration-1000 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[150px]"
             }`}
-            style={{ transitionDelay: "600ms" }}
+            style={{ 
+              transitionDelay: "600ms",
+              width: isMobile ? "80px" : "66px",
+              height: isMobile ? "80px" : "66px",
+              borderWidth: isMobile ? "2.5px" : "1.5px"
+            }}
           >
-            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#E8871E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className={isMobile ? "h-9 w-9" : "h-7 w-7"} fill="none" stroke="#E8871E" strokeWidth={isMobile ? "2" : "1.6"} strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.6 1.6 6.7L12 17.6 5.8 20.8l1.6-6.7-5.2-4.6 6.9-.7L12 2.5z" />
             </svg>
           </div>

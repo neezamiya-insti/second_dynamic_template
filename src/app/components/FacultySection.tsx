@@ -71,9 +71,9 @@ export default function FacultySection() {
   return (
     <section
       ref={sectionRef}
-      className={`${poppins.className} w-full bg-[#FAF9F6] py-20 px-6 overflow-x-hidden`}
+      className={`${poppins.className} w-full bg-[#FAF9F6] py-20 px-6 overflow-hidden`}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto overflow-hidden">
         {/* Header - Center Aligned */}
         <div className="text-center mb-14">
           {/* Badge - Slides in from LEFT */}

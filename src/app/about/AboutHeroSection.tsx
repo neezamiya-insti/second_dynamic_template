@@ -47,8 +47,12 @@ export default function AboutHeroSection() {
     const handleMouseMove = (e: MouseEvent) => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      // Clamp to -0.5..0.5 so the parallax offset can never exceed
+      // the intended range, even with fast mouse movement near edges.
+      const rawX = (e.clientX - rect.left) / rect.width - 0.5;
+      const rawY = (e.clientY - rect.top) / rect.height - 0.5;
+      const x = Math.min(0.5, Math.max(-0.5, rawX));
+      const y = Math.min(0.5, Math.max(-0.5, rawY));
       setMousePosition({ x, y });
     };
 
@@ -64,17 +68,20 @@ export default function AboutHeroSection() {
     };
   }, []);
 
-  const parallaxX = mousePosition.x * 20;
-  const parallaxY = mousePosition.y * 20;
+  // Small, safe parallax range — image is scaled 1.05 (5% bigger) so it has
+  // enough bleed to cover this movement without ever showing an edge gap,
+  // and the parent's overflow-hidden clips any of it that would spill out.
+  const parallaxX = mousePosition.x * 14;
+  const parallaxY = mousePosition.y * 14;
 
   return (
     <div
       ref={sectionRef}
-      className={`${poppins.className} relative w-full min-h-[300px] sm:min-h-[400px] md:min-h-[500px] overflow-hidden cursor-pointer`}
+      className={`${poppins.className} relative w-full max-w-full min-h-[300px] sm:min-h-[400px] md:min-h-[500px] overflow-hidden cursor-pointer`}
     >
       {/* Background Image with Smooth Zoom + Parallax */}
       <div
-        className={`absolute inset-0 transition-all duration-[1500ms] ease-out ${
+        className={`absolute inset-0 overflow-hidden transition-all duration-[1500ms] ease-out ${
           isVisible
             ? "scale-100 opacity-100"
             : "scale-110 opacity-0"
@@ -117,13 +124,13 @@ export default function AboutHeroSection() {
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center justify-center text-center px-4 sm:px-6">
-        <div className="relative z-10 max-w-4xl overflow-hidden">
+        <div className="relative z-10 max-w-4xl w-full overflow-hidden">
           {/* Badge - Slides in from RIGHT */}
           <div
             className={`transition-all duration-[1000ms] ease-out ${
               isVisible
                 ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-[200px]"
+                : "opacity-0 translate-x-16"
             }`}
             style={{ transitionDelay: "400ms" }}
           >
@@ -137,7 +144,7 @@ export default function AboutHeroSection() {
             className={`transition-all duration-[1000ms] ease-out ${
               isVisible
                 ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-[300px]"
+                : "opacity-0 -translate-x-16"
             }`}
             style={{ transitionDelay: "550ms" }}
           >
