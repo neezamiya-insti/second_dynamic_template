@@ -6,10 +6,11 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 import { Star } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
+import GreenfieldBanner from "./GreenfieldBanner"; // adjust path if needed
 
-const poppins = Poppins({ 
-  subsets: ["latin"], 
-  weight: ["400", "500", "600", "700", "800"] 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const courses = [
@@ -66,7 +67,6 @@ export default function CoursesSection() {
     );
 
     const currentRef = sectionRef.current;
-
     if (currentRef) {
       observer.observe(currentRef);
     }
@@ -81,12 +81,12 @@ export default function CoursesSection() {
   return (
     <section
       ref={sectionRef}
-      className={`${poppins.className} w-full bg-[#FAF9F6] py-20 px-6 overflow-hidden`}
+      className={`${poppins.className} w-full bg-[#FAF9F6] py-20 overflow-hidden`}
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Header - Left Aligned */}
+      {/* ========== COURSES CONTENT (constrained width) ========== */}
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
         <div className="mb-14">
-          {/* Badge - Slides in from LEFT */}
           <div
             className={`transition-all duration-1000 ease-out ${
               isVisible
@@ -100,7 +100,6 @@ export default function CoursesSection() {
             </p>
           </div>
 
-          {/* Heading - Slides in from LEFT */}
           <div
             className={`transition-all duration-1000 ease-out ${
               isVisible
@@ -114,7 +113,6 @@ export default function CoursesSection() {
             </h2>
           </div>
 
-          {/* Description - Slides in from LEFT */}
           <div
             className={`transition-all duration-1000 ease-out ${
               isVisible
@@ -124,7 +122,7 @@ export default function CoursesSection() {
             style={{ transitionDelay: "300ms" }}
           >
             <p className="text-[#5B6472] mt-3 max-w-2xl text-base">
-              Discover our comprehensive programs designed to nurture young minds 
+              Discover our comprehensive programs designed to nurture young minds
               and build a strong foundation for lifelong learning.
             </p>
           </div>
@@ -142,7 +140,6 @@ export default function CoursesSection() {
               }`}
               style={{ transitionDelay: `${400 + index * 150}ms` }}
             >
-              {/* Course Image */}
               <div className="relative w-full h-[180px] overflow-hidden">
                 <Image
                   src={course.image}
@@ -150,7 +147,6 @@ export default function CoursesSection() {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                {/* Tags on image */}
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span className="bg-[#E8871E] text-[#FFFFFF] text-xs font-bold px-3 py-1 rounded-full">
                     {course.tag}
@@ -161,113 +157,48 @@ export default function CoursesSection() {
                 </div>
               </div>
 
-              {/* Card Content */}
               <div className="p-5 text-center">
                 <h3 className="text-lg font-bold text-[#0B2340] mb-1">
                   {course.title}
                 </h3>
-                
-                {/* Stars */}
+
                 <div className="flex items-center justify-center gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
                       className={`w-4 h-4 ${
-                        i < course.stars 
-                          ? "fill-[#E8871E] text-[#E8871E]" 
+                        i < course.stars
+                          ? "fill-[#E8871E] text-[#E8871E]"
                           : "fill-[#F2F4F7] text-[#F2F4F7]"
                       }`}
                     />
                   ))}
                 </div>
 
-                {/* Price */}
                 <div className="flex items-center justify-center">
                   <span className="text-[#E8871E] font-bold text-base">
                     {course.price}
                   </span>
                 </div>
 
-                {/* View More Button */}
                 <Link
                   href="/programs"
                   className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-[#2E9B5C] hover:text-[#081A30] transition-all duration-300 group-hover:gap-3"
                 >
                   View More
-                  <span className="text-base transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  <span className="text-base transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
                 </Link>
               </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Banner Row - Admission Banner */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-          {/* Left Mascot */}
-          <div
-            className={`bg-[#F2F4F7] rounded-2xl flex items-center justify-center p-6 min-h-[200px] transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-[100px]"
-            }`}
-            style={{ transitionDelay: "800ms" }}
-          >
-            <img
-              src="https://illustrations.popsy.co/amber/student-going-to-school.svg"
-              alt="Student mascot"
-              className="h-[160px] w-auto"
-            />
-          </div>
-
-          {/* Admission Banner */}
-          <div
-            className={`relative bg-gradient-to-br from-[#E8871E] to-[#0B2340] rounded-2xl flex flex-col items-center justify-center text-center p-8 min-h-[200px] shadow-lg transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-y-0 scale-100"
-                : "opacity-0 translate-y-[100px] scale-90"
-            }`}
-            style={{ transitionDelay: "900ms" }}
-          >
-            <span className="absolute top-4 left-5 font-extrabold text-[#FFFFFF] text-lg">
-              2026
-            </span>
-            <span className="absolute top-4 right-5 text-right">
-              <span className="text-2xl font-extrabold text-[#E8871E] bg-[#FFFFFF] px-2 py-0.5 rounded">
-                20<span className="text-base">%</span>
-              </span>
-              <span className="block text-[10px] font-bold text-[#FFFFFF] -mt-1">
-                OFF
-              </span>
-            </span>
-            <div className="text-5xl mb-2">🎓</div>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-[#FFFFFF] leading-tight">
-              Admission<br />Open
-            </h3>
-            <Link
-              href="/admissions"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#2E9B5C] px-6 py-2.5 text-sm font-semibold text-[#FFFFFF] transition-all hover:bg-[#081A30] hover:scale-105"
-            >
-              Apply Now
-              <span>→</span>
-            </Link>
-          </div>
-
-          {/* Right Mascot */}
-          <div
-            className={`bg-[#F2F4F7] rounded-2xl flex items-center justify-center p-6 min-h-[200px] transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-[100px]"
-            }`}
-            style={{ transitionDelay: "1000ms" }}
-          >
-            <img
-              src="https://illustrations.popsy.co/amber/genius.svg"
-              alt="Curious student mascot"
-              className="h-[160px] w-auto"
-            />
-          </div>
-        </div>
+      {/* ========== FULL WIDTH BANNER (outside max-w-6xl) ========== */}
+      <div className="mt-14 w-full">
+        <GreenfieldBanner />
       </div>
     </section>
   );
