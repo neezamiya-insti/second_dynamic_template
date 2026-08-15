@@ -15,25 +15,25 @@ const faculty = [
     name: "Mrs. Ayesha Khan",
     designation: "Principal",
     bio: "With over 15 years in academic leadership, she is dedicated to fostering a nurturing and disciplined environment where every student can thrive.",
-    photo: "https://randomuser.me/api/portraits/women/44.jpg",
+    photo: "/faculty/principal.png",
   },
   {
     name: "Mr. Ahmed Raza",
     designation: "Vice Principal",
     bio: "A passionate educator who oversees academic planning and student affairs, ensuring smooth day-to-day operations across all departments.",
-    photo: "https://randomuser.me/api/portraits/men/32.jpg",
+    photo: "/faculty/ahmed.png",
   },
   {
     name: "Ms. Sara Malik",
     designation: "Head of Science",
     bio: "She brings innovative teaching methods to the science department, inspiring students to explore, question, and discover the world around them.",
-    photo: "https://randomuser.me/api/portraits/women/68.jpg",
+    photo: "/faculty/sara.png",
   },
   {
     name: "Mr. Bilal Hussain",
     designation: "Head of Arts",
     bio: "A creative mentor who nurtures artistic talent, encouraging students to express themselves through painting, music, and performing arts.",
-    photo: "https://randomuser.me/api/portraits/men/75.jpg",
+    photo: "/faculty/bilal.png",
   },
 ];
 

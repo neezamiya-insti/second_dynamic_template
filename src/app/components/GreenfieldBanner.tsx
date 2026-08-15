@@ -126,20 +126,7 @@ export default function GreenfieldBanner() {
         ))}
       </div>
 
-      {/* Decorative arc */}
-      <div
-        aria-hidden
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: "44cqw",
-          height: "148%",
-          left: "56%",
-          top: "-24%",
-          border: "1.5px solid #cfc3b3",
-          opacity: isVisible ? 0.6 : 0,
-          transition: "opacity 1.4s ease-out 0.3s",
-        }}
-      />
+ 
 
       {/* Main photo (oval) */}
       <div

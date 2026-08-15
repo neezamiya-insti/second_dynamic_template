@@ -7,6 +7,7 @@ import SchoolHero from "./components/Whychose";
 import FAQSection from "./components/FAQSection";
 import TestimonialsSection from "./components/TestimonialsSection";
 import CTASection from "./components/CTASection";
+import PrincipalMessageSection from "./about/PrincipalMessageSection";
 
 
 export default function Home() {
@@ -18,7 +19,7 @@ export default function Home() {
  <SchoolHero/>
  
  <CoursesSection/>
- <FacultySection/>
+ <PrincipalMessageSection/>
  <TestimonialsSection/>
  <FAQSection/>
  <CTASection/>

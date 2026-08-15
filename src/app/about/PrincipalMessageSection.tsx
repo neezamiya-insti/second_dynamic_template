@@ -12,11 +12,11 @@ const poppins = Poppins({
 
 export default function PrincipalMessageSection() {
   return (
-    <div className={`${poppins.className} bg-white rounded-2xl shadow-xl overflow-hidden mt-[2rem]`}>
+    <div className={`${poppins.className} bg-white  shadow-xl overflow-hidden `}>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="relative h-[400px] lg:h-auto">
           <Image
-            src="https://images.unsplash.com/photo-1573497491765-dccce02b29df?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="/faculty/principal.png"
             alt="Principal Mrs. Ayesha Khan"
             fill
             className="object-cover"

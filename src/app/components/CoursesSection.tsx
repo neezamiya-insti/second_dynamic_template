@@ -17,7 +17,7 @@ const courses = [
   {
     id: 1,
     title: "Play Group",
-    image: "https://loremflickr.com/400/300/preschool,kids",
+    image: "/play_group.png",
     price: "PKR 25,000",
     tag: "New",
     stars: 5,
@@ -25,7 +25,7 @@ const courses = [
   {
     id: 2,
     title: "Nursery",
-    image: "https://loremflickr.com/400/300/nursery,children",
+    image: "/nursery.png",
     price: "PKR 25,000",
     tag: "New",
     stars: 5,
@@ -33,7 +33,7 @@ const courses = [
   {
     id: 3,
     title: "Primary",
-    image: "https://loremflickr.com/400/300/classroom,school",
+    image: "/primary.png",
     price: "PKR 30,000",
     tag: "New",
     stars: 5,
@@ -41,7 +41,7 @@ const courses = [
   {
     id: 4,
     title: "Middle",
-    image: "https://loremflickr.com/400/300/students,library",
+    image: "/middle.png",
     price: "PKR 35,000",
     tag: "New",
     stars: 5,

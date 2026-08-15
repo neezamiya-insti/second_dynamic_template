@@ -13,12 +13,12 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-// Extended course data with 6 items
+// ✅ ALL IMAGES FIXED - Proper paths with / and local images
 const courses = [
   {
     id: 1,
     title: "Play Group",
-    image: "https://loremflickr.com/400/300/preschool,kids",
+    image: "/play_group.png",
     price: "PKR 25,000",
     tag: "New",
     category: "Early Years",
@@ -29,7 +29,7 @@ const courses = [
   {
     id: 2,
     title: "Nursery",
-    image: "https://loremflickr.com/400/300/nursery,children",
+    image: "/nursery.png",
     price: "PKR 25,000",
     tag: "New",
     category: "Early Years",
@@ -40,7 +40,7 @@ const courses = [
   {
     id: 3,
     title: "Primary",
-    image: "https://loremflickr.com/400/300/classroom,school",
+    image: "/primary.png",
     price: "PKR 30,000",
     tag: "New",
     category: "Primary",
@@ -51,7 +51,7 @@ const courses = [
   {
     id: 4,
     title: "Middle",
-    image: "https://loremflickr.com/400/300/students,library",
+    image: "/middle.png",
     price: "PKR 35,000",
     tag: "New",
     category: "Secondary",
@@ -62,7 +62,7 @@ const courses = [
   {
     id: 5,
     title: "Secondary",
-    image: "https://loremflickr.com/400/300/highschool,classroom",
+    image: "/secondary.png",
     price: "PKR 40,000",
     tag: "Popular",
     category: "Secondary",
@@ -73,7 +73,7 @@ const courses = [
   {
     id: 6,
     title: "A-Levels",
-    image: "https://loremflickr.com/400/300/students,exam",
+    image: "/alevels.png",
     price: "PKR 50,000",
     tag: "Advanced",
     category: "Higher Secondary",
@@ -92,12 +92,16 @@ const categories = [
   "Higher Secondary",
 ];
 
+// ✅ FALLBACK IMAGE for error handling
+const FALLBACK_IMAGE = "/fallback-image.png";
+
 export default function CoursesSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -135,6 +139,10 @@ export default function CoursesSection() {
 
   const toggleExpand = (id: number) => {
     setExpandedCard(expandedCard === id ? null : id);
+  };
+
+  const handleImageError = (id: number) => {
+    setImageErrors((prev) => ({ ...prev, [id]: true }));
   };
 
   return (
@@ -384,6 +392,9 @@ export default function CoursesSection() {
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 {filteredCourses.map((course, index) => {
                   const isExpanded = expandedCard === course.id;
+                  const hasError = imageErrors[course.id];
+                  const imageSrc = hasError ? FALLBACK_IMAGE : course.image;
+
                   return (
                     <div
                       key={course.id}
@@ -394,13 +405,21 @@ export default function CoursesSection() {
                       }`}
                       style={{ transitionDelay: `${1400 + index * 150}ms` }}
                     >
-                      <div className="relative w-full h-[150px] sm:h-[180px] overflow-hidden">
-                        <Image
-                          src={course.image}
-                          alt={course.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
+                      <div className="relative w-full h-[150px] sm:h-[180px] overflow-hidden bg-[#F2F4F7]">
+                        {imageSrc ? (
+                          <Image
+                            src={imageSrc}
+                            alt={course.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            onError={() => handleImageError(course.id)}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[#5B6472] bg-[#F2F4F7]">
+                            <span className="text-sm">No Image</span>
+                          </div>
+                        )}
                         <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex gap-1.5 sm:gap-2">
                           <span className="bg-[#E8871E] text-[#FFFFFF] text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                             {course.tag}
