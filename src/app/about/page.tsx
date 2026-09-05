@@ -21,7 +21,7 @@ export default function AboutPage() {
       {/* 1. HERO SECTION */}
       <AboutHeroSection />
 
-      <div className="max-w-6xl mx-auto px-6 py-20 lg:px-10">
+      <div className="py-20">
         {/* 2. SCHOOL INTRODUCTION - Our Story */}
         <AboutStorySection />
 
@@ -38,8 +38,7 @@ export default function AboutPage() {
       
         <FacultySection />
 
-        {/* 7. CTA SECTION */}
-        <CTASection />
+    
       </div>
     </section>
   );

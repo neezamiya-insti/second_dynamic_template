@@ -22,7 +22,7 @@ export default function Home() {
  <PrincipalMessageSection/>
  <TestimonialsSection/>
  <FAQSection/>
- <CTASection/>
+
  </>
   );
 }

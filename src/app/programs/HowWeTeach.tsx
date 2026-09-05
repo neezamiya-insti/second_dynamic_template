@@ -42,16 +42,17 @@ export default function HowWeTeach() {
     };
   }, []);
 
-  // Theme Colors
+  // Theme Colors - Updated to match Al Noor College theme
   const colors = {
-    c1: "#E8871E", // Warm Orange
-    c2: "#2E9B5C", // Growth Green
-    c3: "#0B2340", // Deep Navy
-    c4: "#E8871E", // Warm Orange
-    chevron: "#B7BEC9",
-    navy: "#0B2340",
-    gray: "#5B6472",
-    bg: "#FAF9F6",
+    c1: "#E8CA5E", // Gold
+    c2: "#E8CA5E", // Gold
+    c3: "#E8CA5E", // Gold
+    c4: "#E8CA5E", // Gold
+    chevron: "#2A2F3F",
+    navy: "#0B0F19",
+    gray: "#9CA3AF",
+    bg: "#111722",
+    surface: "#0B0F19",
   };
 
   const steps: Step[] = [
@@ -92,7 +93,7 @@ export default function HowWeTeach() {
       description: ["Tailoring teaching to meet", "individual student needs", "and learning styles."],
       color: colors.c4,
       cx: 830,
-      cy: 678, // Increased from 638 to 678 (40px down)
+      cy: 678,
       textX: 900,
     },
   ];
@@ -122,13 +123,13 @@ export default function HowWeTeach() {
       chevronDelay: 1200 
     },
     { 
-      seg1: "M565,586 V662 A16,16 0 0,0 581,678 H669", // Adjusted for step 4
-      seg2: "M689,678 H778", // Adjusted for step 4
+      seg1: "M565,586 V662 A16,16 0 0,0 581,678 H669",
+      seg2: "M689,678 H778",
       c1: colors.c3, 
       c2: colors.c4, 
       delay1: 1400, 
       delay2: 1700, 
-      chevron: { x: 670, y: 671 }, // Adjusted
+      chevron: { x: 670, y: 671 },
       chevronDelay: 1800 
     },
   ];
@@ -162,8 +163,8 @@ export default function HowWeTeach() {
   };
 
   return (
-    <div ref={sectionRef} className={`${poppins.className} w-full bg-[#FAF9F6] overflow-hidden`}>
-      <div className="max-w-[1080px] mx-auto px-5 sm:px-6 py-12 ">
+    <div ref={sectionRef} className={`${poppins.className} w-full bg-[#111722] overflow-hidden`}>
+      <div className="max-w-[1080px] mx-auto px-5 sm:px-6 py-12">
         {/* Eyebrow - Center */}
         <div
           className={`flex items-center justify-center gap-3.5 mb-3 transition-all duration-700 ease-out ${
@@ -171,7 +172,7 @@ export default function HowWeTeach() {
           }`}
         >
           <span className="w-11 h-[2px] rounded-full" style={{ backgroundColor: colors.c1 }} />
-          <span className="font-bold text-[13px] tracking-[3px] text-[#E8871E]">
+          <span className="font-bold text-[13px] tracking-[3px] text-[#E8CA5E]">
             HOW WE TEACH
           </span>
           <span className="w-11 h-[2px] rounded-full" style={{ backgroundColor: colors.c1 }} />
@@ -182,7 +183,7 @@ export default function HowWeTeach() {
           className={`font-['Poppins',sans-serif] font-extrabold text-center whitespace-nowrap leading-[1.2] m-0 mb-2 transition-all duration-700 ease-out delay-100 text-[22px] xs:text-[26px] sm:text-[34px] ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
           }`}
-          style={{ color: colors.navy }}
+          style={{ color: "#FFFFFF" }}
         >
           Our Learning <span style={{ color: colors.c1 }}>Methodology</span>
         </h1>
@@ -199,11 +200,10 @@ export default function HowWeTeach() {
 
         {/* ============ DESKTOP / TABLET: SVG staircase diagram ============ */}
         <div className="hidden sm:block">
-          {/* Increased viewBox height from 720 to 770 to accommodate step 4 */}
           <svg viewBox="0 70 1150 770" xmlns="http://www.w3.org/2000/svg" className="block w-full h-auto">
             <defs>
               <filter id="htw-shadow" x="-60%" y="-60%" width="220%" height="220%">
-                <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#0B2340" floodOpacity="0.1" />
+                <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000000" floodOpacity="0.3" />
               </filter>
             </defs>
 
@@ -280,7 +280,7 @@ export default function HowWeTeach() {
                   />
 
                   {/* icon circle */}
-                  <circle cx={step.cx} cy={step.cy} r={46} fill="#fff" filter="url(#htw-shadow)" />
+                  <circle cx={step.cx} cy={step.cy} r={46} fill="#0B0F19" filter="url(#htw-shadow)" stroke={step.color} strokeWidth={1.5} />
                   <g
                     transform={`translate(${step.cx - 20},${step.cy - 20}) scale(1.65)`}
                     stroke={step.color}
@@ -310,7 +310,7 @@ export default function HowWeTeach() {
                     x={step.textX} 
                     y={step.cy + 24} 
                     className={`font-['Poppins',sans-serif] font-bold text-[17px]`} 
-                    fill={colors.navy}
+                    fill="#FFFFFF"
                     style={{
                       opacity: isVisible ? 1 : 0,
                       transform: isVisible ? "translateX(0)" : "translateX(-10px)",
@@ -368,9 +368,9 @@ export default function HowWeTeach() {
                     />
                   )}
                   <div
-                    className="relative z-10 flex-none w-[60px] h-[60px] rounded-full bg-white flex items-center justify-center transition-all duration-500"
+                    className="relative z-10 flex-none w-[60px] h-[60px] rounded-full bg-[#0B0F19] flex items-center justify-center transition-all duration-500 border border-[#E8CA5E]/30"
                     style={{
-                      boxShadow: "0 4px 14px rgba(11,35,64,0.1)",
+                      boxShadow: "0 4px 14px rgba(0,0,0,0.3)",
                       transform: isVisible ? "scale(1)" : "scale(0.8)",
                       opacity: isVisible ? 1 : 0,
                       transitionDelay: `${delay + 50}ms`,
@@ -403,7 +403,7 @@ export default function HowWeTeach() {
                     <p
                       className={`font-['Poppins',sans-serif] font-bold text-[15.5px] m-0 mb-1.5`}
                       style={{
-                        color: colors.navy,
+                        color: "#FFFFFF",
                         opacity: isVisible ? 1 : 0,
                         transform: isVisible ? "translateX(0)" : "translateX(-10px)",
                         transition: `opacity 600ms ease-out ${delay + 200}ms, transform 600ms ease-out ${delay + 200}ms`,

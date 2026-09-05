@@ -105,7 +105,6 @@ export default function AdmissionApplication() {
   const processRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLElement>(null);
 
-  // Intersection Observer for scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -132,7 +131,6 @@ export default function AdmissionApplication() {
     };
   }, []);
 
-  // Update process step based on form step
   useEffect(() => {
     setActiveProcessStep(activeFormStep);
   }, [activeFormStep]);
@@ -146,10 +144,10 @@ export default function AdmissionApplication() {
   return (
     <main
       ref={sectionRef}
-      className={`${poppins.className} bg-[#FAF9F6] text-[#0B2340] overflow-hidden`}
+      className={`${poppins.className} bg-[#FAF9F6] text-[#0B2340] overflow-hidden w-full`}
     >
       {/* ====== HERO SECTION ====== */}
-      <section className="relative min-h-[500px] overflow-hidden bg-[#FAF9F6] py-8 px-4 md:py-12 md:px-10">
+      <section className="relative min-h-[500px] overflow-hidden bg-[#FAF9F6] py-8 px-4 md:py-12 md:px-10 w-full">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Content */}
           <div className="bg-[#FAF9F6] p-6 md:p-8 lg:p-12 rounded-3xl">
@@ -161,7 +159,7 @@ export default function AdmissionApplication() {
               }`}
               style={{ transitionDelay: "100ms" }}
             >
-              <div className="relative mb-2 w-fit pb-2.5 text-[11px] md:text-[13px] font-semibold tracking-wide text-[#E8871E] after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-8 after:bg-[#E8871E]">
+              <div className="relative mb-2 w-fit pb-2.5 text-[11px] md:text-[13px] font-semibold tracking-wide text-[#E8CA5E] after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-8 after:bg-[#E8CA5E]">
                 Your Journey Begins Here
               </div>
             </div>
@@ -174,7 +172,7 @@ export default function AdmissionApplication() {
               }`}
               style={{ transitionDelay: "250ms" }}
             >
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-[#0B2340]">
+              <h1 className="text-3xl md:text-4xl lg:text-4xl font-extrabold leading-tight text-[#0B2340]">
                 Admission Open
               </h1>
             </div>
@@ -188,7 +186,7 @@ export default function AdmissionApplication() {
               style={{ transitionDelay: "350ms" }}
             >
               <p className="mb-3 md:mb-4 text-xl md:text-2xl lg:text-3xl font-semibold text-[#0B2340]">
-                For a <span className="text-[#E8871E]">Brighter Future</span>
+                For a <span className="text-[#E8CA5E]">Brighter Future</span>
               </p>
             </div>
 
@@ -216,7 +214,7 @@ export default function AdmissionApplication() {
             >
               <button
                 type="button"
-                className="flex w-fit items-center gap-2 rounded-full bg-[#2E9B5C] px-6 md:px-8 py-3 md:py-3.5 text-sm md:text-[15px] font-bold text-white shadow-lg shadow-[#2E9B5C]/30 transition-all hover:-translate-y-0.5 hover:bg-[#278a51] hover:shadow-xl cursor-pointer"
+                className="flex w-fit items-center gap-2 rounded-full bg-[#E8CA5E] px-6 md:px-8 py-3 md:py-3.5 text-sm md:text-[15px] font-bold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d4b84a] hover:shadow-xl cursor-pointer"
               >
                 Apply Now
                 <ArrowRight className="h-4 w-4" />
@@ -226,7 +224,7 @@ export default function AdmissionApplication() {
 
           {/* Right Image */}
           <div
-            className={`relative h-[220px] sm:h-[280px] md:h-[350px] lg:h-[450px] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl transition-all duration-[1200ms] ease-out ${
+            className={`relative h-[220px] sm:h-[280px] md:h-[350px] lg:h-[450px] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl transition-all duration-[1200ms] ease-out cursor-pointer group ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-[200px]"
@@ -234,12 +232,12 @@ export default function AdmissionApplication() {
             style={{ transitionDelay: "200ms" }}
           >
             <Image
-              src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?q=80&w=948&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="/events/ad1.png"
               alt="Student writing in a classroom"
               fill
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B2340]/20 via-transparent to-transparent" />
           </div>
@@ -249,7 +247,7 @@ export default function AdmissionApplication() {
       {/* ====== PROCESS SECTION ====== */}
       <section
         ref={processRef}
-        className="px-4 md:px-6 pb-12 md:pb-16 pt-12 md:pt-20 text-center bg-[#FAF9F6] overflow-hidden"
+        className="px-4 md:px-6 pb-12 md:pb-16 pt-12 md:pt-20 text-center bg-[#FAF9F6] overflow-hidden w-full"
       >
         <div
           className={`transition-all duration-[1000ms] ease-out ${
@@ -259,7 +257,7 @@ export default function AdmissionApplication() {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <p className="mb-2 text-[12px] md:text-[13px] font-bold tracking-wide text-[#E8871E]">
+          <p className="mb-2 text-[12px] md:text-[13px] font-bold tracking-wide text-[#E8CA5E]">
             How to Apply
           </p>
         </div>
@@ -276,12 +274,10 @@ export default function AdmissionApplication() {
           </h2>
         </div>
 
-        {/* Process Steps - Responsive Grid for Mobile */}
         <div className="grid grid-cols-2 md:flex md:flex-nowrap md:justify-between gap-4 md:gap-0 relative max-w-5xl mx-auto">
-          {/* Desktop Line */}
           <div className="absolute left-[10%] right-[10%] top-8 h-0.5 bg-[#F2F4F7] hidden md:block" />
           <div
-            className="absolute left-[10%] top-8 h-0.5 bg-gradient-to-r from-[#E8871E] to-[#f8b545] transition-all duration-700 ease-out hidden md:block"
+            className="absolute left-[10%] top-8 h-0.5 bg-gradient-to-r from-[#E8CA5E] to-[#f8d45a] transition-all duration-700 ease-out hidden md:block"
             style={{
               width: `${((activeProcessStep - 1) / (PROCESS_STEPS.length - 1)) * 80}%`,
             }}
@@ -309,9 +305,9 @@ export default function AdmissionApplication() {
                 <div
                   className={`mx-auto mb-2 md:mb-4 flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full border shadow-[0_4px_14px_rgba(11,35,64,0.08)] transition-all duration-500 ${
                     isActive
-                      ? "border-[#E8871E] bg-[#E8871E] text-white scale-110 shadow-lg shadow-[#E8871E]/30"
+                      ? "border-[#E8CA5E] bg-[#E8CA5E] text-[#0B0F19] scale-110 shadow-lg shadow-[#E8CA5E]/30"
                       : isDone
-                      ? "border-[#2E9B5C] bg-[#2E9B5C] text-white"
+                      ? "border-[#E8CA5E] bg-[#E8CA5E] text-[#0B0F19]"
                       : "border-[#F2F4F7] bg-white text-[#0B2340]"
                   }`}
                 >
@@ -323,14 +319,14 @@ export default function AdmissionApplication() {
                 </div>
                 <div
                   className={`mb-0.5 md:mb-1.5 text-[11px] md:text-[13px] font-extrabold transition-colors duration-300 ${
-                    isActive ? "text-[#E8871E]" : "text-[#E8871E]"
+                    isActive ? "text-[#E8CA5E]" : "text-[#E8CA5E]"
                   }`}
                 >
                   0{step.id}
                 </div>
                 <div
                   className={`mb-0.5 md:mb-1 text-[11px] md:text-[15px] font-bold transition-colors duration-300 ${
-                    isActive ? "text-[#E8871E]" : "text-[#0B2340]"
+                    isActive ? "text-[#E8CA5E]" : "text-[#0B2340]"
                   }`}
                 >
                   {step.title}
@@ -347,10 +343,10 @@ export default function AdmissionApplication() {
       {/* ====== FORM SECTION ====== */}
       <section
         ref={formRef}
-        className="mx-auto max-w-5xl px-4 md:px-6 pb-16 md:pb-20 overflow-hidden"
+        className="w-full max-w-none px-0 pb-16 md:pb-20 overflow-hidden"
       >
         <div
-          className={`flex flex-col overflow-hidden rounded-2xl border border-[#F2F4F7] bg-white shadow-[0_20px_50px_rgba(11,35,64,0.08)] transition-all duration-[1000ms] ease-out md:flex-row ${
+          className={`flex flex-col overflow-hidden border-y border-[#F2F4F7] bg-white shadow-[0_20px_50px_rgba(11,35,64,0.08)] transition-all duration-[1000ms] ease-out md:flex-row ${
             isVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-[80px]"
@@ -358,9 +354,9 @@ export default function AdmissionApplication() {
           style={{ transitionDelay: "1300ms" }}
         >
           {/* Sidebar */}
-          <aside className="w-full shrink-0 bg-[#0B2340] px-5 py-6 md:px-7 md:py-9 text-white md:w-72">
+          <aside className="w-full shrink-0 bg-[#0B0F19] px-5 py-6 md:px-7 md:py-9 text-white md:w-72">
             <h3 className="mb-1 text-base md:text-lg font-extrabold text-white">Application Form</h3>
-            <p className="mb-5 md:mb-7 text-[11px] md:text-[12.5px] text-[#9aa1c2]">
+            <p className="mb-5 md:mb-7 text-[11px] md:text-[12.5px] text-[#9CA3AF]">
               Fill in the details step by step
             </p>
 
@@ -379,10 +375,10 @@ export default function AdmissionApplication() {
                       <span
                         className={`z-10 flex h-7 w-7 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-full border-2 text-[11px] md:text-[13px] font-bold transition-all duration-300 ${
                           isActive
-                            ? "border-[#E8871E] bg-[#E8871E] text-white scale-110"
+                            ? "border-[#E8CA5E] bg-[#E8CA5E] text-[#0B0F19] scale-110"
                             : isCompleted
-                            ? "border-[#2E9B5C] bg-[#2E9B5C] text-white"
-                            : "border-white/15 bg-white/10 text-[#c5cae0] group-hover:border-white/30"
+                            ? "border-[#E8CA5E] bg-[#E8CA5E] text-[#0B0F19]"
+                            : "border-white/15 bg-white/10 text-[#9CA3AF] group-hover:border-white/30"
                         }`}
                       >
                         {isCompleted ? <Check className="h-3 w-3 md:h-4 md:w-4" /> : step.id}
@@ -390,12 +386,12 @@ export default function AdmissionApplication() {
                       <span>
                         <span
                           className={`block text-[12px] md:text-[14.5px] font-bold transition-colors duration-300 ${
-                            isActive ? "text-[#E8871E]" : "text-white group-hover:text-[#E8871E]/80"
+                            isActive ? "text-[#E8CA5E]" : "text-white group-hover:text-[#E8CA5E]/80"
                           }`}
                         >
                           {step.title}
                         </span>
-                        <span className="block text-[10px] md:text-xs text-[#9aa1c2]">{step.desc}</span>
+                        <span className="block text-[10px] md:text-xs text-[#9CA3AF]">{step.desc}</span>
                       </span>
                     </button>
                   </li>
@@ -406,7 +402,7 @@ export default function AdmissionApplication() {
 
           {/* Main Form Panel */}
           <div className="flex-1 px-4 py-6 md:px-8 md:py-10 lg:px-12">
-            <p className="mb-1.5 text-[12px] md:text-[13px] font-bold text-[#E8871E]">
+            <p className="mb-1.5 text-[12px] md:text-[13px] font-bold text-[#E8CA5E]">
               Step {activeFormStep} of {TOTAL_STEPS}
             </p>
             <h4 className="mb-1.5 text-[18px] md:text-[22px] font-extrabold text-[#0B2340]">{currentForm.heading}</h4>
@@ -415,11 +411,11 @@ export default function AdmissionApplication() {
             <div className="mb-6 md:mb-8 flex items-center gap-3">
               <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#F2F4F7]">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#E8871E] to-[#f8b545] transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-[#E8CA5E] to-[#f8d45a] transition-all duration-500"
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
-              <span className="w-8 md:w-10 text-right text-[11px] md:text-[13px] font-bold text-[#E8871E]">
+              <span className="w-8 md:w-10 text-right text-[11px] md:text-[13px] font-bold text-[#E8CA5E]">
                 {progressPct}%
               </span>
             </div>
@@ -518,7 +514,7 @@ export default function AdmissionApplication() {
                     type="checkbox"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 rounded border-[#F2F4F7] accent-[#E8871E] cursor-pointer"
+                    className="mt-0.5 h-4 w-4 rounded border-[#F2F4F7] accent-[#E8CA5E] cursor-pointer"
                   />
                   I confirm that all the information provided is accurate and I agree
                   to the school's admission terms and conditions.
@@ -531,7 +527,7 @@ export default function AdmissionApplication() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="flex items-center gap-2 rounded-full bg-[#2E9B5C] px-6 md:px-8 py-2.5 md:py-3.5 text-[13px] md:text-[14.5px] font-bold text-white shadow-lg shadow-[#2E9B5C]/30 transition-all hover:-translate-y-0.5 hover:bg-[#278a51] hover:shadow-xl cursor-pointer"
+                  className="flex items-center gap-2 rounded-full bg-[#E8CA5E] px-6 md:px-8 py-2.5 md:py-3.5 text-[13px] md:text-[14.5px] font-bold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d4b84a] hover:shadow-xl cursor-pointer"
                 >
                   Save &amp; Next
                   <ArrowRight className="h-4 w-4" />
@@ -540,7 +536,7 @@ export default function AdmissionApplication() {
                 <button
                   type="button"
                   disabled={!agreed}
-                  className="flex items-center gap-2 rounded-full bg-[#E8871E] px-6 md:px-8 py-2.5 md:py-3.5 text-[13px] md:text-[14.5px] font-bold text-white shadow-lg shadow-[#E8871E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d1780f] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+                  className="flex items-center gap-2 rounded-full bg-[#E8CA5E] px-6 md:px-8 py-2.5 md:py-3.5 text-[13px] md:text-[14.5px] font-bold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d4b84a] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                 >
                   Submit Application
                   <CheckCircle2 className="h-4 w-4" />
@@ -573,7 +569,7 @@ function Field({
       <input
         type={type}
         placeholder={placeholder}
-        className="rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] px-3 py-2.5 md:px-3.5 md:py-3 text-xs md:text-sm text-[#0B2340] outline-none focus:border-[#E8871E] focus:bg-white focus:ring-2 focus:ring-[#E8871E]/20 transition-all"
+        className="rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] px-3 py-2.5 md:px-3.5 md:py-3 text-xs md:text-sm text-[#0B2340] outline-none focus:border-[#E8CA5E] focus:bg-white focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all"
       />
     </div>
   );
@@ -583,7 +579,7 @@ function SelectField({ label, options }: { label: string; options: string[] }) {
   return (
     <div className="flex flex-col gap-1.5 md:gap-2">
       <label className="text-[11px] md:text-[13px] font-semibold text-[#0B2340]">{label}</label>
-      <select className="rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] px-3 py-2.5 md:px-3.5 md:py-3 text-xs md:text-sm text-[#0B2340] outline-none focus:border-[#E8871E] focus:bg-white focus:ring-2 focus:ring-[#E8871E]/20 transition-all">
+      <select className="rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] px-3 py-2.5 md:px-3.5 md:py-3 text-xs md:text-sm text-[#0B2340] outline-none focus:border-[#E8CA5E] focus:bg-white focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all">
         {options.map((opt) => (
           <option key={opt}>{opt}</option>
         ))}
@@ -607,7 +603,7 @@ function TextareaField({
       <textarea
         placeholder={placeholder}
         rows={3}
-        className="rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] px-3 py-2.5 md:px-3.5 md:py-3 text-xs md:text-sm text-[#0B2340] outline-none focus:border-[#E8871E] focus:bg-white focus:ring-2 focus:ring-[#E8871E]/20 transition-all resize-none"
+        className="rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] px-3 py-2.5 md:px-3.5 md:py-3 text-xs md:text-sm text-[#0B2340] outline-none focus:border-[#E8CA5E] focus:bg-white focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all resize-none"
       />
     </div>
   );
@@ -617,8 +613,8 @@ function UploadField({ label, hint }: { label: string; hint: string }) {
   return (
     <div className="flex flex-col gap-1.5 md:gap-2">
       <label className="text-[11px] md:text-[13px] font-semibold text-[#0B2340]">{label}</label>
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-1.5 md:gap-2 rounded-xl border-2 border-dashed border-[#D1D5DB] bg-[#FAF9F6] px-4 py-4 md:py-6 text-center transition-colors hover:border-[#E8871E] hover:bg-white">
-        <UploadCloud className="h-5 w-5 md:h-6 md:w-6 text-[#E8871E]" />
+      <label className="flex cursor-pointer flex-col items-center justify-center gap-1.5 md:gap-2 rounded-xl border-2 border-dashed border-[#D1D5DB] bg-[#FAF9F6] px-4 py-4 md:py-6 text-center transition-colors hover:border-[#E8CA5E] hover:bg-white">
+        <UploadCloud className="h-5 w-5 md:h-6 md:w-6 text-[#E8CA5E]" />
         <span className="text-[10px] md:text-xs font-semibold text-[#0B2340]">
           Click to upload or drag &amp; drop
         </span>

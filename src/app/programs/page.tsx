@@ -13,87 +13,107 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-// ✅ ALL IMAGES FIXED - Proper paths with / and local images
+// College Level Courses
 const courses = [
   {
     id: 1,
-    title: "Play Group",
-    image: "/play_group.png",
-    price: "PKR 25,000",
-    tag: "New",
-    category: "Early Years",
+    title: "Bachelor of Science (CS)",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 150,000",
+    tag: "Popular",
+    category: "Science",
     stars: 5,
-    description: "A nurturing environment for our youngest learners to explore and grow. Through play-based learning, children develop social skills, creativity, and a love for discovery.",
-    fullDescription: "Our Play Group program is designed to provide a safe, nurturing, and stimulating environment where children aged 3-4 years can explore, learn, and grow. We focus on developing social skills, emotional intelligence, and cognitive abilities through structured play, creative activities, and guided exploration. Our experienced teachers create a warm and welcoming atmosphere that makes every child feel valued and supported.",
+    description: "Comprehensive computer science program covering programming, algorithms, and software development.",
+    fullDescription: "Our BSCS program provides a strong foundation in computer science principles, programming languages, data structures, algorithms, and software engineering. Students gain hands-on experience through practical projects and internships, preparing them for careers in software development, AI, and data science.",
   },
   {
     id: 2,
-    title: "Nursery",
-    image: "/nursery.png",
-    price: "PKR 25,000",
+    title: "Bachelor of Business Administration",
+    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 140,000",
     tag: "New",
-    category: "Early Years",
+    category: "Business",
     stars: 5,
-    description: "Building foundational skills through play-based and structured activities that prepare children for formal education.",
-    fullDescription: "Our Nursery program bridges the gap between playgroup and formal schooling. Children aged 4-5 years engage in structured learning activities that build foundational skills in literacy, numeracy, and social interaction. We use a balanced approach that combines teacher-guided instruction with child-led exploration, ensuring each child develops confidence and independence.",
+    description: "Develop leadership and management skills for the modern business world.",
+    fullDescription: "The BBA program equips students with essential business knowledge including marketing, finance, human resources, and strategic management. Through case studies, internships, and industry projects, students develop practical skills for successful careers in business and entrepreneurship.",
   },
   {
     id: 3,
-    title: "Primary",
-    image: "/primary.png",
-    price: "PKR 30,000",
-    tag: "New",
-    category: "Primary",
+    title: "Bachelor of Arts (English)",
+    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 120,000",
+    tag: "Popular",
+    category: "Arts",
     stars: 5,
-    description: "Core academic subjects combined with creative and physical education to develop well-rounded individuals.",
-    fullDescription: "Our Primary program (Grades 1-5) provides a strong academic foundation while nurturing creativity, critical thinking, and physical development. Students explore core subjects including English, Mathematics, Science, and Social Studies, alongside art, music, and physical education. We emphasize character building, teamwork, and a growth mindset.",
+    description: "Explore literature, linguistics, and creative writing in depth.",
+    fullDescription: "The BA English program offers a rich exploration of literature, linguistics, and creative writing. Students study classic and contemporary works, develop critical thinking skills, and enhance their writing abilities. Graduates pursue careers in education, media, publishing, and content creation.",
   },
   {
     id: 4,
-    title: "Middle",
-    image: "/middle.png",
-    price: "PKR 35,000",
-    tag: "New",
-    category: "Secondary",
+    title: "Master of Science (CS)",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 200,000",
+    tag: "Advanced",
+    category: "Science",
     stars: 5,
-    description: "Advanced curriculum with a focus on critical thinking and independent study skills.",
-    fullDescription: "The Middle School program (Grades 6-8) builds on foundational knowledge while introducing more complex concepts across all subjects. Students develop critical thinking, research, and independent study skills through project-based learning and collaborative assignments. We prepare students for the rigors of secondary education while nurturing their individual interests and talents.",
+    description: "Advanced study in computer science with research and specialization options.",
+    fullDescription: "The MSCS program offers advanced coursework in computer science with opportunities for research in AI, machine learning, cybersecurity, and data science. Students work on cutting-edge projects and prepare for doctoral studies or senior technical roles in industry.",
   },
   {
     id: 5,
-    title: "Secondary",
-    image: "/secondary.png",
-    price: "PKR 40,000",
+    title: "Master of Business Administration",
+    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 220,000",
     tag: "Popular",
-    category: "Secondary",
+    category: "Business",
     stars: 5,
-    description: "Preparing students for higher education with specialized subject streams and career guidance.",
-    fullDescription: "Our Secondary program (Grades 9-10) prepares students for O-Level/Matriculation examinations with a comprehensive curriculum across sciences, humanities, and commerce streams. Students receive career guidance, academic counseling, and exposure to various fields through guest lectures and workshops. We focus on developing analytical skills, leadership qualities, and a strong sense of responsibility.",
+    description: "Executive-level business education for future leaders and entrepreneurs.",
+    fullDescription: "Our MBA program prepares experienced professionals for senior leadership roles. The curriculum covers advanced business strategy, organizational behavior, financial management, and global business. Students benefit from networking opportunities and real-world business projects.",
   },
   {
     id: 6,
-    title: "A-Levels",
-    image: "/alevels.png",
-    price: "PKR 50,000",
-    tag: "Advanced",
-    category: "Higher Secondary",
+    title: "Bachelor of Education",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 130,000",
+    tag: "New",
+    category: "Education",
     stars: 5,
-    description: "Rigorous pre-university program with expert faculty and comprehensive career preparation.",
-    fullDescription: "Our A-Level program (Grades 11-12) offers a rigorous academic experience with subject specialization across sciences, arts, and commerce. Students benefit from expert faculty, small class sizes, and personalized mentoring. We provide extensive university preparation, including application guidance, entrance exam preparation, and career counseling to ensure students are well-prepared for their future endeavors.",
+    description: "Prepare for a rewarding career in teaching and educational leadership.",
+    fullDescription: "The B.Ed program prepares aspiring educators with pedagogical knowledge, classroom management skills, and curriculum development expertise. Students gain practical teaching experience through internships in partner schools and develop a deep understanding of educational theory and practice.",
+  },
+  {
+    id: 7,
+    title: "Bachelor of Law (LLB)",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 160,000",
+    tag: "Popular",
+    category: "Law",
+    stars: 5,
+    description: "Comprehensive legal education with practical training and courtroom exposure.",
+    fullDescription: "The LLB program provides a thorough understanding of legal principles, constitutional law, criminal law, and civil procedure. Students develop analytical, research, and advocacy skills through moot courts, legal clinics, and internships with law firms and courts.",
+  },
+  {
+    id: 8,
+    title: "Bachelor of Design (B.Des)",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    price: "PKR 145,000",
+    tag: "New",
+    category: "Arts",
+    stars: 5,
+    description: "Creative design program covering visual communication, UX, and product design.",
+    fullDescription: "The B.Des program nurtures creative talent in visual communication, user experience, and product design. Students work on real-world projects, build strong portfolios, and develop skills in design thinking, prototyping, and digital tools. Graduates pursue careers in advertising, UI/UX, and creative industries.",
   },
 ];
 
 // Categories for filter
 const categories = [
   "All",
-  "Early Years",
-  "Primary",
-  "Secondary",
-  "Higher Secondary",
+  "Science",
+  "Business",
+  "Arts",
+  "Education",
+  "Law",
 ];
-
-// ✅ FALLBACK IMAGE for error handling
-const FALLBACK_IMAGE = "/fallback-image.png";
 
 export default function CoursesSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -101,7 +121,6 @@ export default function CoursesSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
-  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -130,7 +149,6 @@ export default function CoursesSection() {
     };
   }, []);
 
-  // Filter courses based on category and search
   const filteredCourses = courses.filter((course) => {
     const matchesCategory = selectedCategory === "All" || course.category === selectedCategory;
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -141,16 +159,12 @@ export default function CoursesSection() {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
-  const handleImageError = (id: number) => {
-    setImageErrors((prev) => ({ ...prev, [id]: true }));
-  };
-
   return (
     <section
       ref={sectionRef}
       className={`${poppins.className} w-full bg-[#FAF9F6] overflow-hidden`}
     >
-      {/* ====== HERO SECTION - Mobile Responsive ====== */}
+      {/* ====== HERO SECTION ====== */}
       <div className="relative w-full h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] overflow-hidden">
         <div
           className={`absolute inset-0 transition-all duration-[1200ms] ease-out ${
@@ -159,7 +173,7 @@ export default function CoursesSection() {
           style={{ transitionDelay: "0ms" }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=1172&auto=format&fit=crop"
             alt="Students learning"
             fill
             className="object-cover"
@@ -168,7 +182,7 @@ export default function CoursesSection() {
         </div>
 
         <div
-          className={`absolute inset-0 bg-gradient-to-b from-[#0B2340]/60 via-[#0B2340]/70 to-[#0B2340]/80 transition-all duration-[1000ms] ease-out ${
+          className={`absolute inset-0 bg-gradient-to-b from-[#0B0F19]/60 via-[#0B0F19]/70 to-[#0B0F19]/80 transition-all duration-[1000ms] ease-out ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
           style={{ transitionDelay: "200ms" }}
@@ -183,7 +197,7 @@ export default function CoursesSection() {
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            <p className="inline-block text-[10px] sm:text-sm font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] text-[#E8871E] mb-3 sm:mb-4 px-3 sm:px-4 py-1 sm:py-1.5 border border-[#E8871E]/30 rounded-full bg-[#E8871E]/10 backdrop-blur-sm">
+            <p className="inline-block text-[10px] sm:text-sm font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] text-[#E8CA5E] mb-3 sm:mb-4 px-3 sm:px-4 py-1 sm:py-1.5 border border-[#E8CA5E]/30 rounded-full bg-[#E8CA5E]/10 backdrop-blur-sm">
               ✦ Explore Our Programs ✦
             </p>
           </div>
@@ -196,9 +210,9 @@ export default function CoursesSection() {
             }`}
             style={{ transitionDelay: "450ms" }}
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight drop-shadow-2xl">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-white leading-tight drop-shadow-2xl">
               Learn, Grow & <br />
-              <span className="text-[#E8871E]">Inspire Together</span>
+              <span className="text-[#E8CA5E]">Inspire Together</span>
             </h1>
           </div>
 
@@ -210,7 +224,7 @@ export default function CoursesSection() {
             }`}
             style={{ transitionDelay: "600ms" }}
           >
-            <div className="h-[2px] sm:h-[3px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-[#E8871E] to-transparent rounded-full my-3 sm:my-4" />
+            <div className="h-[2px] sm:h-[3px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-[#E8CA5E] to-transparent rounded-full my-3 sm:my-4" />
           </div>
 
           <div
@@ -221,13 +235,13 @@ export default function CoursesSection() {
             }`}
             style={{ transitionDelay: "750ms" }}
           >
-            <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-2">
-              Browse our comprehensive range of courses designed to nurture young minds
-              and build a strong foundation for lifelong learning.
+            <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-2">
+              Browse our comprehensive range of degree programs designed to shape future leaders
+              and build successful careers.
             </p>
           </div>
 
-          {/* Search Input - Mobile Responsive */}
+          {/* Search Input - Fully Rounded */}
           <div
             className={`max-w-xl w-full mx-auto transition-all duration-[1000ms] ease-out ${
               isVisible
@@ -236,7 +250,7 @@ export default function CoursesSection() {
             }`}
             style={{ transitionDelay: "900ms" }}
           >
-            <div className="flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-1.5 sm:p-2 transition-all duration-300 focus-within:border-[#E8871E] focus-within:shadow-[0_0_20px_rgba(232,135,30,0.2)]">
+            <div className="flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-1.5 sm:p-2 transition-all duration-300 focus-within:border-[#E8CA5E] focus-within:shadow-[0_0_20px_rgba(232,202,94,0.2)]">
               <input
                 type="text"
                 placeholder="Search courses..."
@@ -244,14 +258,14 @@ export default function CoursesSection() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-transparent text-white placeholder:text-white/60 px-3 sm:px-4 py-1.5 sm:py-2 outline-none text-xs sm:text-base font-medium"
               />
-              <button className="bg-[#E8871E] text-white p-2 sm:p-3 rounded-full hover:bg-[#d1780f] transition-all hover:scale-105 cursor-pointer">
+              <button className="bg-[#E8CA5E] text-[#0B0F19] p-2 sm:p-3 rounded-full hover:bg-[#d4b84a] transition-all hover:scale-105 cursor-pointer">
                 <Search className="w-4 sm:w-5 h-4 sm:h-5" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Bottom Wave - Mobile Responsive */}
+        {/* Bottom Wave */}
         <div
           className={`absolute bottom-0 left-0 w-full transition-all duration-[1200ms] ease-out ${
             isVisible
@@ -275,7 +289,7 @@ export default function CoursesSection() {
 
       {/* ====== COURSES SECTION WITH FILTER ====== */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20">
-        {/* Header - Center Aligned */}
+        {/* Header */}
         <div className="text-center mb-8 sm:mb-10 md:mb-14">
           <div
             className={`transition-all duration-[1000ms] ease-out ${
@@ -285,8 +299,8 @@ export default function CoursesSection() {
             }`}
             style={{ transitionDelay: "1100ms" }}
           >
-            <p className="text-[10px] sm:text-sm font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#E8871E] mb-2">
-              Our Courses
+            <p className="text-[10px] sm:text-sm font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#E8CA5E] mb-2">
+              Our Programs
             </p>
           </div>
           <div
@@ -298,7 +312,7 @@ export default function CoursesSection() {
             style={{ transitionDelay: "1200ms" }}
           >
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#0B2340]">
-              Explore Our Courses
+              Explore Our Degree Programs
             </h2>
           </div>
         </div>
@@ -323,7 +337,7 @@ export default function CoursesSection() {
                 {selectedCategory !== "All" && (
                   <button
                     onClick={() => setSelectedCategory("All")}
-                    className="text-xs text-[#E8871E] hover:text-[#d1780f] transition-colors cursor-pointer"
+                    className="text-xs text-[#E8CA5E] hover:text-[#d4b84a] transition-colors cursor-pointer"
                   >
                     Clear All
                   </button>
@@ -350,13 +364,13 @@ export default function CoursesSection() {
                     }}
                     className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${
                       selectedCategory === category
-                        ? "bg-[#E8871E] text-white shadow-lg shadow-[#E8871E]/20"
+                        ? "bg-[#E8CA5E] text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/20"
                         : "text-[#5B6472] hover:bg-[#F2F4F7] hover:text-[#0B2340]"
                     }`}
                   >
                     {category}
                     {selectedCategory === category && (
-                      <span className="float-right text-xs bg-white/20 px-2 py-0.5 rounded-full">
+                      <span className="float-right text-xs bg-[#0B0F19]/20 px-2 py-0.5 rounded-full">
                         {filteredCourses.length}
                       </span>
                     )}
@@ -367,23 +381,23 @@ export default function CoursesSection() {
               {/* Results Count */}
               <div className="mt-4 pt-4 border-t border-[#F2F4F7]">
                 <p className="text-xs text-[#5B6472]">
-                  Showing <span className="font-bold text-[#0B2340]">{filteredCourses.length}</span> courses
+                  Showing <span className="font-bold text-[#0B2340]">{filteredCourses.length}</span> programs
                 </p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT SIDE - Courses Grid - Responsive */}
+          {/* RIGHT SIDE - Courses Grid */}
           <div className="flex-1">
             {filteredCourses.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-[#5B6472] text-lg">No courses found matching your criteria.</p>
+                <p className="text-[#5B6472] text-lg">No programs found matching your criteria.</p>
                 <button
                   onClick={() => {
                     setSelectedCategory("All");
                     setSearchQuery("");
                   }}
-                  className="mt-4 text-[#E8871E] font-semibold hover:underline cursor-pointer"
+                  className="mt-4 text-[#E8CA5E] font-semibold hover:underline cursor-pointer"
                 >
                   Clear filters
                 </button>
@@ -392,8 +406,6 @@ export default function CoursesSection() {
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 {filteredCourses.map((course, index) => {
                   const isExpanded = expandedCard === course.id;
-                  const hasError = imageErrors[course.id];
-                  const imageSrc = hasError ? FALLBACK_IMAGE : course.image;
 
                   return (
                     <div
@@ -406,25 +418,18 @@ export default function CoursesSection() {
                       style={{ transitionDelay: `${1400 + index * 150}ms` }}
                     >
                       <div className="relative w-full h-[150px] sm:h-[180px] overflow-hidden bg-[#F2F4F7]">
-                        {imageSrc ? (
-                          <Image
-                            src={imageSrc}
-                            alt={course.title}
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            onError={() => handleImageError(course.id)}
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[#5B6472] bg-[#F2F4F7]">
-                            <span className="text-sm">No Image</span>
-                          </div>
-                        )}
+                        <Image
+                          src={course.image}
+                          alt={course.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
                         <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex gap-1.5 sm:gap-2">
-                          <span className="bg-[#E8871E] text-[#FFFFFF] text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                          <span className="bg-[#E8CA5E] text-[#0B0F19] text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                             {course.tag}
                           </span>
-                          <span className="bg-[#0B2340] text-[#FFFFFF] text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                          <span className="bg-[#0B0F19] text-white text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                             {course.category}
                           </span>
                         </div>
@@ -439,14 +444,14 @@ export default function CoursesSection() {
                               key={i}
                               className={`w-3 h-3 sm:w-4 sm:h-4 ${
                                 i < course.stars
-                                  ? "fill-[#E8871E] text-[#E8871E]"
+                                  ? "fill-[#E8CA5E] text-[#E8CA5E]"
                                   : "fill-[#F2F4F7] text-[#F2F4F7]"
                               }`}
                             />
                           ))}
                         </div>
 
-                        {/* Description - Short or Full */}
+                        {/* Description */}
                         <div className="text-[#5B6472] text-xs sm:text-sm leading-relaxed mb-3">
                           {isExpanded ? (
                             <div className="space-y-2">
@@ -458,9 +463,10 @@ export default function CoursesSection() {
                         </div>
 
                         <div className="flex items-center justify-center mb-3">
-                          <span className="text-[#E8871E] font-bold text-sm sm:text-base">
+                          <span className="text-[#E8CA5E] font-bold text-sm sm:text-base">
                             {course.price}
                           </span>
+                          <span className="text-[#5B6472] text-xs ml-1">/ year</span>
                         </div>
 
                         {/* Read More / Read Less Button */}
@@ -470,7 +476,7 @@ export default function CoursesSection() {
                               e.stopPropagation();
                               toggleExpand(course.id);
                             }}
-                            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold text-[#2E9B5C] hover:text-[#081A30] transition-all duration-300 cursor-pointer"
+                            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold text-[#E8CA5E] hover:text-[#0B0F19] transition-all duration-300 cursor-pointer"
                           >
                             {isExpanded ? (
                               <>

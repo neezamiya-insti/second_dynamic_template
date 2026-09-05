@@ -18,11 +18,10 @@ export default function CTASection() {
   return (
     <section className={`
       ${poppins.className} 
-      relative w-full py-20 px-0 overflow-hidden 
-      ${!isHomepage ? 'rounded-[40px]' : ''}
+      relative w-full min-h-[400px] md:min-h-[500px] py-20 px-0 overflow-hidden
     `}>
       {/* Background Image - Public folder se */}
-      <div className={`absolute inset-0 z-0 ${!isHomepage ? 'rounded-[40px] overflow-hidden' : ''}`}>
+      <div className="absolute inset-0 z-0">
         <Image
           src="/contact.jpg"
           alt="School building background"
@@ -31,14 +30,14 @@ export default function CTASection() {
           priority
         />
         {/* Overlay */}
-        <div className={`absolute inset-0 bg-[#0B2340]/80 ${!isHomepage ? 'rounded-[40px]' : ''}`} />
+        <div className="absolute inset-0 bg-[#0B0F19]/85" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 flex items-center justify-center min-h-[400px] md:min-h-[500px]">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8871E] mb-4">
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8CA5E] mb-4">
             Join Our Community
           </p>
 
@@ -50,7 +49,7 @@ export default function CTASection() {
           {/* Description */}
           <p className="text-white/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-8">
             Give your child the gift of quality education, character building, 
-            and endless opportunities. Join Greenfield School today and be 
+            and endless opportunities. Join Al Noor College today and be 
             part of a community that nurtures excellence.
           </p>
 
@@ -58,7 +57,7 @@ export default function CTASection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/admissions"
-              className="inline-flex items-center gap-2 rounded-full bg-[#2E9B5C] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#2E9B5C]/30 transition-all hover:-translate-y-0.5 hover:bg-[#278a51] hover:shadow-xl hover:shadow-[#2E9B5C]/40"
+              className="inline-flex items-center gap-2 rounded-full bg-[#E8CA5E] px-8 py-3.5 text-base font-semibold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d4b84a] hover:shadow-xl hover:shadow-[#E8CA5E]/40"
             >
               Apply Now
               <span className="text-lg">→</span>
@@ -74,7 +73,7 @@ export default function CTASection() {
       </div>
 
       {/* Decorative Element - Bottom Gradient */}
-      <div className={`absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#0B2340]/20 to-transparent pointer-events-none ${!isHomepage ? 'rounded-b-[40px]' : ''}`} />
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#0B0F19]/20 to-transparent pointer-events-none" />
     </section>
   );
 }

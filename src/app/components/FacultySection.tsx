@@ -12,25 +12,25 @@ const poppins = Poppins({
 
 const faculty = [
   {
-    name: "Mrs. Ayesha Khan",
+    name: "Dr. Fatima Al Noor",
     designation: "Principal",
     bio: "With over 15 years in academic leadership, she is dedicated to fostering a nurturing and disciplined environment where every student can thrive.",
     photo: "/faculty/principal.png",
   },
   {
-    name: "Mr. Ahmed Raza",
+    name: "Prof. Ahmed Raza",
     designation: "Vice Principal",
     bio: "A passionate educator who oversees academic planning and student affairs, ensuring smooth day-to-day operations across all departments.",
     photo: "/faculty/ahmed.png",
   },
   {
-    name: "Ms. Sara Malik",
+    name: "Prof. Sara Malik",
     designation: "Head of Science",
     bio: "She brings innovative teaching methods to the science department, inspiring students to explore, question, and discover the world around them.",
     photo: "/faculty/sara.png",
   },
   {
-    name: "Mr. Bilal Hussain",
+    name: "Prof. Bilal Hussain",
     designation: "Head of Arts",
     bio: "A creative mentor who nurtures artistic talent, encouraging students to express themselves through painting, music, and performing arts.",
     photo: "/faculty/bilal.png",
@@ -71,7 +71,7 @@ export default function FacultySection() {
   return (
     <section
       ref={sectionRef}
-      className={`${poppins.className} w-full bg-[#FAF9F6] py-20 px-6 overflow-hidden`}
+      className={`${poppins.className} w-full bg-[#0B0F19] py-20 px-6 overflow-hidden`}
     >
       <div className="max-w-6xl mx-auto overflow-hidden">
         {/* Header - Center Aligned */}
@@ -85,7 +85,7 @@ export default function FacultySection() {
             }`}
             style={{ transitionDelay: "0ms" }}
           >
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8871E] mb-2">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8CA5E] mb-2">
               Our Team
             </p>
           </div>
@@ -99,7 +99,7 @@ export default function FacultySection() {
             }`}
             style={{ transitionDelay: "150ms" }}
           >
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B2340]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white">
               Meet Our Faculty
             </h2>
           </div>
@@ -113,7 +113,7 @@ export default function FacultySection() {
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            <p className="text-[#5B6472] mt-3 max-w-xl mx-auto text-base">
+            <p className="text-[#9CA3AF] mt-3 max-w-xl mx-auto text-base">
               Dedicated educators committed to shaping bright futures with care,
               knowledge, and inspiration.
             </p>
@@ -135,7 +135,7 @@ export default function FacultySection() {
               {/* Image Frame - Same shape for all */}
               <div className={`
                 rounded-[50%_50%_50%_50%/42%_42%_58%_58%]
-                bg-white p-3 shadow-xl transition-all duration-300 hover:scale-105 z-10 -mb-10 w-32 h-32
+                bg-[#111722] p-3 shadow-xl transition-all duration-300 hover:scale-105 z-10 -mb-10 w-32 h-32 border border-white/10
               `}>
                 <div className={`
                   relative w-full h-full overflow-hidden
@@ -150,14 +150,14 @@ export default function FacultySection() {
               </div>
 
               {/* Card Content */}
-              <div className="bg-[#FAF9F6] rounded-full w-full min-h-[340px] pt-16 pb-8 px-6 flex flex-col items-center shadow-md transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
-                <h3 className="text-xl font-bold text-[#0B2340]">
+              <div className="bg-[#111722] rounded-full w-full min-h-[340px] pt-16 pb-8 px-6 flex flex-col items-center shadow-md transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 border border-white/5">
+                <h3 className="text-xl font-bold text-white">
                   {member.name}
                 </h3>
-                <span className="text-sm font-semibold text-[#E8871E] mt-1 mb-4">
+                <span className="text-sm font-semibold text-[#E8CA5E] mt-1 mb-4">
                   {member.designation}
                 </span>
-                <p className="text-[#5B6472] text-sm leading-relaxed">
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
                   {member.bio}
                 </p>
               </div>

@@ -83,7 +83,7 @@ export default function ContactSection() {
             }`}
             style={{ transitionDelay: "0ms" }}
           >
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8871E] mb-2">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8CA5E] mb-2">
               Get In Touch
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function ContactSection() {
             }`}
             style={{ transitionDelay: "150ms" }}
           >
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B2340]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-[#0B2340]">
               Contact Us
             </h2>
           </div>
@@ -133,7 +133,7 @@ export default function ContactSection() {
               style={{ transitionDelay: "500ms" }}
             >
               <img
-                src="https://plus.unsplash.com/premium_photo-1669658981858-b2ae0d7581a3?q=80&w=854&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="/contact.png"
                 alt="Contact us"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               />
@@ -157,7 +157,7 @@ export default function ContactSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                      Your Name <span className="text-[#E8871E]">*</span>
+                      Your Name <span className="text-[#E8CA5E]">*</span>
                     </label>
                     <input
                       type="text"
@@ -167,12 +167,12 @@ export default function ContactSection() {
                       onChange={handleChange}
                       required
                       placeholder="Enter your full name"
-                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm"
                     />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                      Email Address <span className="text-[#E8871E]">*</span>
+                      Email Address <span className="text-[#E8CA5E]">*</span>
                     </label>
                     <input
                       type="email"
@@ -182,14 +182,14 @@ export default function ContactSection() {
                       onChange={handleChange}
                       required
                       placeholder="Enter your email"
-                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                    Subject <span className="text-[#E8871E]">*</span>
+                    Subject <span className="text-[#E8CA5E]">*</span>
                   </label>
                   <input
                     type="text"
@@ -199,13 +199,13 @@ export default function ContactSection() {
                     onChange={handleChange}
                     required
                     placeholder="Enter subject"
-                    className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                    Message <span className="text-[#E8871E]">*</span>
+                    Message <span className="text-[#E8CA5E]">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -215,18 +215,18 @@ export default function ContactSection() {
                     required
                     rows={5}
                     placeholder="Write your message here..."
-                    className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-full bg-[#2E9B5C] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#2E9B5C]/30 transition-all hover:-translate-y-0.5 hover:bg-[#278a51] hover:shadow-xl hover:shadow-[#2E9B5C]/40 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 rounded-full bg-[#E8CA5E] px-8 py-3.5 text-base font-semibold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d4b84a] hover:shadow-xl hover:shadow-[#E8CA5E]/40 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+                      <span className="animate-spin rounded-full h-5 w-5 border-2 border-[#0B0F19] border-t-transparent" />
                       Sending...
                     </>
                   ) : isSubmitted ? (
@@ -243,7 +243,7 @@ export default function ContactSection() {
                 </button>
 
                 {isSubmitted && (
-                  <div className="text-center text-[#2E9B5C] text-sm font-semibold animate-in fade-in duration-300">
+                  <div className="text-center text-[#E8CA5E] text-sm font-semibold animate-in fade-in duration-300">
                     ✓ Your message has been sent successfully. We'll get back to you soon!
                   </div>
                 )}

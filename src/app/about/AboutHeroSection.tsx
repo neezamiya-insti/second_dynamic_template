@@ -42,13 +42,10 @@ export default function AboutHeroSection() {
     };
   }, []);
 
-  // Parallax effect on mouse move
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      // Clamp to -0.5..0.5 so the parallax offset can never exceed
-      // the intended range, even with fast mouse movement near edges.
       const rawX = (e.clientX - rect.left) / rect.width - 0.5;
       const rawY = (e.clientY - rect.top) / rect.height - 0.5;
       const x = Math.min(0.5, Math.max(-0.5, rawX));
@@ -68,9 +65,6 @@ export default function AboutHeroSection() {
     };
   }, []);
 
-  // Small, safe parallax range — image is scaled 1.05 (5% bigger) so it has
-  // enough bleed to cover this movement without ever showing an edge gap,
-  // and the parent's overflow-hidden clips any of it that would spill out.
   const parallaxX = mousePosition.x * 14;
   const parallaxY = mousePosition.y * 14;
 
@@ -95,7 +89,7 @@ export default function AboutHeroSection() {
       >
         <Image
           src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?fm=jpg&q=80&w=1920&auto=format&fit=crop"
-          alt="School building"
+          alt="Al Noor College Campus"
           fill
           className="object-cover"
           priority
@@ -104,7 +98,7 @@ export default function AboutHeroSection() {
 
       {/* Gradient Overlay - Smooth Fade */}
       <div
-        className={`absolute inset-0 bg-gradient-to-b from-[#0B2340]/50 via-[#0B2340]/70 to-[#0B2340]/80 transition-all duration-[1200ms] ease-out ${
+        className={`absolute inset-0 bg-gradient-to-b from-[#0B0F19]/50 via-[#0B0F19]/70 to-[#0B0F19]/85 transition-all duration-[1200ms] ease-out ${
           isVisible
             ? "opacity-100"
             : "opacity-0"
@@ -134,7 +128,7 @@ export default function AboutHeroSection() {
             }`}
             style={{ transitionDelay: "400ms" }}
           >
-            <p className="inline-block text-[10px] sm:text-sm font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] text-[#E8871E] mb-3 sm:mb-4 px-3 sm:px-4 py-1 sm:py-1.5 border border-[#E8871E]/30 rounded-full bg-[#E8871E]/10 backdrop-blur-sm">
+            <p className="inline-block text-[10px] sm:text-sm font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] text-[#E8CA5E] mb-3 sm:mb-4 px-3 sm:px-4 py-1 sm:py-1.5 border border-[#E8CA5E]/30 rounded-full bg-[#E8CA5E]/10 backdrop-blur-sm">
               ✦ About Us ✦
             </p>
           </div>
@@ -148,8 +142,8 @@ export default function AboutHeroSection() {
             }`}
             style={{ transitionDelay: "550ms" }}
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight drop-shadow-2xl">
-              Greenfield School
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-extrabold text-white leading-tight drop-shadow-2xl">
+              Excellence in Education Since 2010
             </h1>
           </div>
 
@@ -162,7 +156,7 @@ export default function AboutHeroSection() {
             }`}
             style={{ transitionDelay: "700ms" }}
           >
-            <div className="h-[2px] sm:h-[3px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-[#E8871E] to-transparent rounded-full my-3 sm:my-4" />
+            <div className="h-[2px] sm:h-[3px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-[#E8CA5E] to-transparent rounded-full my-3 sm:my-4" />
           </div>
 
           {/* Description - Slides UP from BOTTOM */}
@@ -174,11 +168,11 @@ export default function AboutHeroSection() {
             }`}
             style={{ transitionDelay: "800ms" }}
           >
-            <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed px-2">
-              Empowering young minds with quality education, character building, 
-              and holistic development since 2010. We believe in nurturing 
-              curiosity, fostering creativity, and building a strong foundation 
-              for lifelong learning and success.
+            <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-base max-w-2xl mx-auto leading-relaxed px-2">
+              Shaping future leaders with academic excellence, character building, 
+              and holistic development. We believe in nurturing curiosity, 
+              fostering innovation, and building a strong foundation for 
+              lifelong learning and success.
             </p>
           </div>
 
@@ -193,7 +187,7 @@ export default function AboutHeroSection() {
           >
             <a
               href="#"
-              className="inline-flex items-center gap-2 mt-4 sm:mt-6 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#E8871E] text-white font-semibold hover:bg-[#d47a1a] transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-[#E8871E]/30 text-sm sm:text-base"
+              className="inline-flex items-center gap-2 mt-4 sm:mt-6 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#E8CA5E] text-[#0B0F19] font-semibold hover:bg-[#d4b84a] transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-[#E8CA5E]/30 text-sm sm:text-base"
             >
               Explore More
               <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
@@ -218,7 +212,7 @@ export default function AboutHeroSection() {
         >
           <path
             d="M0,40 C240,80 480,0 720,30 C960,60 1200,10 1440,40 L1440,60 L0,60 Z"
-            fill="#FAF9F6"
+            fill="#111722"
           />
         </svg>
       </div>

@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Poppins } from "next/font/google";
 import { 
   Mail, 
@@ -33,15 +34,15 @@ const contactInfo = [
     title: "Visit Us",
     detail: "123 Education Street, Lahore, Pakistan",
     subDetail: "Located in the heart of the city",
-    fullDescription: "Come visit our beautiful campus and see the Greenfield difference in person. Our friendly staff will give you a personalized tour of our facilities.",
-    color: "text-[#E8871E]",
-    bgColor: "bg-[#E8871E]",
-    borderColor: "border-[#E8871E]",
-    bgLight: "bg-[#E8871E]/10",
+    fullDescription: "Come visit our beautiful campus and see the Al Noor College difference in person. Our friendly staff will give you a personalized tour of our facilities.",
+    color: "text-[#E8CA5E]",
+    bgColor: "bg-[#E8CA5E]",
+    borderColor: "border-[#E8CA5E]",
+    bgLight: "bg-[#E8CA5E]/10",
     action: "Get Directions",
     link: "https://maps.google.com",
     hours: "Mon - Fri: 8:00 AM - 4:00 PM",
-    email: "visit@greenfieldschool.edu.pk",
+    email: "visit@alnoorcollege.edu.pk",
     phone: "+92 300 1234567",
     mapLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d217618.56816650718!2d74.258163!3d31.52037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190483e58107d9%3A0xc23abe6ccc7e2462!2sLahore%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000",
   },
@@ -51,15 +52,15 @@ const contactInfo = [
     title: "Call Us",
     detail: "+92 300 1234567",
     subDetail: "Mon - Fri: 8:00 AM - 4:00 PM",
-    fullDescription: "Our friendly admissions team is ready to answer all your questions about admissions, programs, and school life. Call us during business hours.",
-    color: "text-[#2E9B5C]",
-    bgColor: "bg-[#2E9B5C]",
-    borderColor: "border-[#2E9B5C]",
-    bgLight: "bg-[#2E9B5C]/10",
+    fullDescription: "Our friendly admissions team is ready to answer all your questions about admissions, programs, and college life. Call us during business hours.",
+    color: "text-[#E8CA5E]",
+    bgColor: "bg-[#E8CA5E]",
+    borderColor: "border-[#E8CA5E]",
+    bgLight: "bg-[#E8CA5E]/10",
     action: "Call Now",
     link: "tel:+923001234567",
     hours: "Mon - Fri: 8:00 AM - 4:00 PM",
-    email: "call@greenfieldschool.edu.pk",
+    email: "call@alnoorcollege.edu.pk",
     phone: "+92 300 1234567",
     mapLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d217618.56816650718!2d74.258163!3d31.52037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190483e58107d9%3A0xc23abe6ccc7e2462!2sLahore%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000",
   },
@@ -67,17 +68,17 @@ const contactInfo = [
     id: 3,
     icon: Mail,
     title: "Email Us",
-    detail: "admissions@greenfieldschool.edu.pk",
+    detail: "admissions@alnoorcollege.edu.pk",
     subDetail: "We respond within 24 hours",
     fullDescription: "Send us an email and we'll get back to you as soon as possible. For urgent matters, please call us directly.",
-    color: "text-[#0B2340]",
-    bgColor: "bg-[#0B2340]",
-    borderColor: "border-[#0B2340]",
-    bgLight: "bg-[#0B2340]/10",
+    color: "text-[#E8CA5E]",
+    bgColor: "bg-[#E8CA5E]",
+    borderColor: "border-[#E8CA5E]",
+    bgLight: "bg-[#E8CA5E]/10",
     action: "Send Email",
-    link: "mailto:admissions@greenfieldschool.edu.pk",
+    link: "mailto:admissions@alnoorcollege.edu.pk",
     hours: "24/7 Email Support",
-    email: "admissions@greenfieldschool.edu.pk",
+    email: "admissions@alnoorcollege.edu.pk",
     phone: "+92 300 1234567",
     mapLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d217618.56816650718!2d74.258163!3d31.52037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190483e58107d9%3A0xc23abe6ccc7e2462!2sLahore%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000",
   },
@@ -105,7 +106,6 @@ export default function ContactPage() {
   const [selectedContact, setSelectedContact] = useState(contactInfo[0]);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Hero Section Animation
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -177,7 +177,7 @@ export default function ContactPage() {
         </div>
 
         <div
-          className={`absolute inset-0 bg-gradient-to-b from-[#0B2340]/60 via-[#0B2340]/70 to-[#0B2340]/80 transition-all duration-[1000ms] ease-out ${
+          className={`absolute inset-0 bg-gradient-to-b from-[#0B0F19]/60 via-[#0B0F19]/70 to-[#0B0F19]/80 transition-all duration-[1000ms] ease-out ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
           style={{ transitionDelay: "200ms" }}
@@ -191,7 +191,7 @@ export default function ContactPage() {
               }`}
               style={{ transitionDelay: "300ms" }}
             >
-              <p className="inline-block text-sm font-bold uppercase tracking-[0.25em] text-[#E8871E] mb-4 px-4 py-1.5 border border-[#E8871E]/30 rounded-full bg-[#E8871E]/10 backdrop-blur-sm">
+              <p className="inline-block text-sm font-bold uppercase tracking-[0.25em] text-[#E8CA5E] mb-4 px-4 py-1.5 border border-[#E8CA5E]/30 rounded-full bg-[#E8CA5E]/10 backdrop-blur-sm">
                 ✦ Get In Touch ✦
               </p>
             </div>
@@ -203,7 +203,7 @@ export default function ContactPage() {
               style={{ transitionDelay: "450ms" }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-5xl font-extrabold text-white leading-tight drop-shadow-2xl">
-                Contact <span className="text-[#E8871E]">Us</span>
+                Contact <span className="text-[#E8CA5E]">Us</span>
               </h1>
             </div>
 
@@ -213,7 +213,7 @@ export default function ContactPage() {
               }`}
               style={{ transitionDelay: "600ms" }}
             >
-              <div className="h-[3px] w-20 bg-gradient-to-r from-transparent via-[#E8871E] to-transparent rounded-full my-4" />
+              <div className="h-[3px] w-20 bg-gradient-to-r from-transparent via-[#E8CA5E] to-transparent rounded-full my-4" />
             </div>
 
             <div
@@ -362,7 +362,7 @@ export default function ContactPage() {
                   href={selectedContact.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold ${selectedContact.bgColor} transition-all hover:scale-105 hover:shadow-lg`}
+                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-[#0B0F19] font-semibold ${selectedContact.bgColor} transition-all hover:scale-105 hover:shadow-lg`}
                 >
                   {selectedContact.action}
                   <ArrowRight className="w-4 h-4" />
@@ -379,7 +379,7 @@ export default function ContactPage() {
             >
               <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(11,35,64,0.06)] p-4 md:p-6">
                 <h3 className="text-lg font-bold text-[#0B2340] mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-[#E8871E]" />
+                  <MapPin className="w-5 h-5 text-[#E8CA5E]" />
                   Find Us Here
                 </h3>
                 <div className="relative w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden">
@@ -402,10 +402,10 @@ export default function ContactPage() {
         {/* 3. CONTACT FORM WITH IMAGE */}
         <div className="mt-20">
           <div className="text-center mb-14">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8871E] mb-2">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#E8CA5E] mb-2">
               Send a Message
             </p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B2340]">
+            <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-[#0B2340]">
               We'd Love to Hear From You
             </h2>
             <p className="text-[#5B6472] mt-3 max-w-2xl mx-auto text-base">
@@ -415,12 +415,12 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-5xl mx-auto">
             {/* Left Side - Image */}
-            <div className="lg:col-span-2 relative rounded-2xl overflow-hidden shadow-xl min-h-[300px] lg:min-h-[500px]">
+            <div className="lg:col-span-2 relative rounded-2xl overflow-hidden shadow-xl min-h-[300px] lg:min-h-[500px] cursor-pointer group">
               <Image
                 src="/contact.jpg"
                 alt="Contact us"
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B2340]/50 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
@@ -436,7 +436,7 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                        Your Name <span className="text-[#E8871E]">*</span>
+                        Your Name <span className="text-[#E8CA5E]">*</span>
                       </label>
                       <input
                         type="text"
@@ -446,12 +446,12 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         placeholder="Enter your full name"
-                        className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm"
+                        className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm"
                       />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                        Email Address <span className="text-[#E8871E]">*</span>
+                        Email Address <span className="text-[#E8CA5E]">*</span>
                       </label>
                       <input
                         type="email"
@@ -461,14 +461,14 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         placeholder="Enter your email"
-                        className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm"
+                        className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm"
                       />
                     </div>
                   </div>
 
                   <div>
                     <label htmlFor="subject" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                      Subject <span className="text-[#E8871E]">*</span>
+                      Subject <span className="text-[#E8CA5E]">*</span>
                     </label>
                     <input
                       type="text"
@@ -478,13 +478,13 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       placeholder="Enter subject"
-                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm"
                     />
                   </div>
 
                   <div>
                     <label htmlFor="message" className="block text-sm font-semibold text-[#0B2340] mb-2">
-                      Message <span className="text-[#E8871E]">*</span>
+                      Message <span className="text-[#E8CA5E]">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -494,18 +494,18 @@ export default function ContactPage() {
                       required
                       rows={5}
                       placeholder="Write your message here..."
-                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8871E] focus:ring-2 focus:ring-[#E8871E]/20 transition-all duration-300 text-sm resize-none"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F2F4F7] bg-[#FAF9F6] text-[#0B2340] placeholder:text-[#5B6472]/60 focus:outline-none focus:border-[#E8CA5E] focus:ring-2 focus:ring-[#E8CA5E]/20 transition-all duration-300 text-sm resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-full bg-[#2E9B5C] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#2E9B5C]/30 transition-all hover:-translate-y-0.5 hover:bg-[#278a51] hover:shadow-xl hover:shadow-[#2E9B5C]/40 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 rounded-full bg-[#E8CA5E] px-8 py-3.5 text-base font-semibold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/30 transition-all hover:-translate-y-0.5 hover:bg-[#d4b84a] hover:shadow-xl hover:shadow-[#E8CA5E]/40 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>
-                        <span className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+                        <span className="animate-spin rounded-full h-5 w-5 border-2 border-[#0B0F19] border-t-transparent" />
                         Sending...
                       </>
                     ) : isSubmitted ? (
@@ -522,7 +522,7 @@ export default function ContactPage() {
                   </button>
 
                   {isSubmitted && (
-                    <div className="text-center text-[#2E9B5C] text-sm font-semibold animate-in fade-in duration-300">
+                    <div className="text-center text-[#E8CA5E] text-sm font-semibold animate-in fade-in duration-300">
                       ✓ Your message has been sent successfully. We'll get back to you soon!
                     </div>
                   )}
@@ -532,6 +532,15 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+
+      {/* ====== APPLY NOW BUTTON - Floating ====== */}
+      <Link
+        href="/admissions"
+        className="fixed bottom-8 right-8 z-50 flex items-center gap-2 rounded-full bg-[#E8CA5E] px-6 py-3.5 text-sm font-bold text-[#0B0F19] shadow-lg shadow-[#E8CA5E]/40 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-[#E8CA5E]/50 cursor-pointer md:px-8 md:py-4 md:text-base"
+      >
+        Apply Now
+        <ArrowRight className="h-4 w-4" />
+      </Link>
     </section>
   );
 }

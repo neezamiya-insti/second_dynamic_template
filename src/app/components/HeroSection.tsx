@@ -3,25 +3,40 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+// ----------------------------------------------------------------------------
+// Theme tokens
+// ----------------------------------------------------------------------------
+const BG = "#0B0F19";
+const GOLD = "#E8CA5E";
+const BLUE = "#0066FF";
+
 // Multiple slides data
 const SLIDES = [
   {
     id: 1,
-    image: "/back1.jpg",
-    heading: "Nurturing Minds Inspiring Futures",
-    description: "A place to learn, grow, and achieve excellence every day.",
+    image: "/Hero/desktop1.png",
+    mobileImage: "/Hero/mobile1.png",
+    heading: "Build Your Future With Excellence",
+    description:
+      "A modern learning environment where students discover knowledge, develop confidence, and prepare for a successful future.",
   },
   {
     id: 2,
-    image: "/back2.jpg",
-    heading: "Empowering Students for Tomorrow",
-    description: "Building character, knowledge, and skills for a bright future.",
+    image: "/Hero/desktop2.png",
+    mobileImage: "/Hero/mobile2.png",
+    heading: "Learn. Grow. Succeed.",
+    description:
+      "Empowering students through quality education, experienced faculty, and an environment designed for academic growth.",
   },
   {
     id: 3,
-    image: "/back3.jpg",
-    heading: "Excellence in Education",
-    description: "Where every child's potential is nurtured with care and dedication.",
+    image: "/Hero/desktop3.png",
+    // Only two mobile-specific images were provided, so this slide falls
+    // back to the desktop image on mobile too.
+    mobileImage: null,
+    heading: "A Place Where Potential Becomes Success",
+    description:
+      "Join a community focused on achievement, character, innovation, and lifelong learning.",
   },
 ];
 
@@ -130,6 +145,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden cursor-pointer"
+      style={{ backgroundColor: BG }}
     >
       {/* Background images — current slides up and out, next slides in from the bottom */}
       <div className="absolute inset-0">
@@ -162,20 +178,45 @@ export default function HeroSection() {
                 zIndex,
               }}
             >
-              <Image
-                src={slide.image}
-                alt={`Slide ${index + 1}`}
-                fill
-                priority={index === 0}
-                className="object-cover"
-              />
+              {slide.mobileImage ? (
+                <>
+                  <Image
+                    src={slide.mobileImage}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="block object-cover object-bottom sm:hidden"
+                    sizes="100vw"
+                  />
+                  <Image
+                    src={slide.image}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="hidden object-cover object-bottom sm:block"
+                    sizes="100vw"
+                  />
+                </>
+              ) : (
+                <Image
+                  src={slide.image}
+                  alt={`Slide ${index + 1}`}
+                  fill
+                  priority={index === 0}
+                  className="object-cover object-bottom"
+                  sizes="100vw"
+                />
+              )}
             </div>
           );
         })}
       </div>
 
-      {/* Navy gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0B2340]/15 via-[#081A30]/25 to-[#081A30]/40 z-10" />
+      {/* Flat dark overlay for legibility — no gradient */}
+      <div
+        className="absolute inset-0 z-10"
+        style={{ backgroundColor: "rgba(11,15,25,0.35)" }}
+      />
 
       {/* Content with entry animations */}
       <div className="relative z-20 mx-auto max-w-3xl px-6 pb-24 pt-10 text-center text-white overflow-hidden">
@@ -188,8 +229,11 @@ export default function HeroSection() {
           }`}
           style={{ transitionDelay: "0ms" }}
         >
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#E8871E] font-['Poppins',_sans-serif]">
-            Welcome to
+          <p
+            className="mb-4 text-sm font-medium tracking-wide"
+            style={{ color: BLUE }}
+          >
+            Admissions open for the new academic session
           </p>
         </div>
 
@@ -204,7 +248,7 @@ export default function HeroSection() {
         >
           <h1
             key={`heading-${currentSlide}`}
-            className="mb-5 text-4xl font-extrabold leading-tight sm:text-5xl font-['Poppins',_sans-serif]"
+            className="mb-5 text-4xl font-semibold leading-tight sm:text-5xl"
           >
             {headingLines.map((line, i) => (
               <span key={i} className="block">
@@ -225,13 +269,13 @@ export default function HeroSection() {
         >
           <p
             key={`desc-${currentSlide}`}
-            className="mx-auto mb-8 max-w-md text-base leading-relaxed text-[#F2F4F7] font-['Poppins',_sans-serif]"
+            className="mx-auto mb-8 max-w-md text-base leading-relaxed text-gray-200"
           >
             {currentSlideData.description}
           </p>
         </div>
 
-        {/* Button - Slides UP from BOTTOM with delay */}
+        {/* Buttons - Slide UP from BOTTOM with delay (fixed across all slides) */}
         <div
           className={`transition-all duration-1000 ease-out ${
             isLoaded
@@ -240,15 +284,21 @@ export default function HeroSection() {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full bg-[#2E9B5C] px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#2E9B5C]/30 transition-all hover:-translate-y-0.5 hover:bg-[#278a51] hover:shadow-xl hover:shadow-[#2E9B5C]/40 font-['Poppins',_sans-serif]"
-          >
-            Apply Now
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/25 text-sm">
-              →
-            </span>
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="/admissions"
+              className="inline-flex cursor-pointer items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+              style={{ backgroundColor: GOLD, color: BG }}
+            >
+              Start Your Application
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/35 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:border-white/70"
+            >
+              Contact Us
+            </a>
+          </div>
         </div>
       </div>
 
@@ -258,11 +308,13 @@ export default function HeroSection() {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`transition-all duration-300 rounded-full ${
-              index === currentSlide
-                ? "w-8 h-2.5 bg-[#E8871E]"
-                : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
-            }`}
+            className="transition-all duration-300 rounded-full cursor-pointer"
+            style={{
+              width: index === currentSlide ? "2rem" : "0.625rem",
+              height: "0.625rem",
+              backgroundColor:
+                index === currentSlide ? GOLD : "rgba(255,255,255,0.35)",
+            }}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
@@ -288,7 +340,7 @@ export default function HeroSection() {
         >
           <path
             d="M0,64 C240,120 480,0 720,32 C960,64 1200,112 1440,48 L1440,120 L0,120 Z"
-            fill="#081A30"
+            fill={BG}
           />
         </svg>
       </div>
