@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/immutability */
 /* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -7,12 +9,16 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 import { X } from "lucide-react";
 
-const poppins = Poppins({ 
-  subsets: ["latin"], 
-  weight: ["400", "500", "600", "700", "800"] 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
+// ----------------------------------------------------------------------------
+// Types
+// ----------------------------------------------------------------------------
 interface Student {
+  id: number;
   name: string;
   tag: string;
   quote: string;
@@ -22,63 +28,85 @@ interface Student {
   club: string;
 }
 
-const students: Student[] = [
-  {
-    name: "Maya K.",
-    tag: "BSCS · ID 2309",
-    image: "/s2.jpg",
-    quote: "The library used to be my least favourite place. Now I go there just to think — no one's ever told me I was reading the wrong kind of book.",
-    year: "BSCS",
-    since: "Since 2023",
-    club: "Library Club",
-  },
-  {
-    name: "Daniyal O.",
-    tag: "BBA · ID 2147",
-    image: "/s3.jpg",
-    quote: "I joined the business society to network, if I'm honest. Stayed three years — it's the first time I've actually enjoyed working in a team. Once.",
-    year: "BBA",
-    since: "Since 2021",
-    club: "Business Society",
-  },
-  {
-    name: "Sana R.",
-    tag: "BA · ID 2461",
-    image: "/s4.jpg",
-    quote: "My professor noticed I'd gone quiet before I did. She didn't make a thing of it — just left space for me to speak when I was ready.",
-    year: "BA",
-    since: "Since 2024",
-    club: "Art Studio",
-  },
-  {
-    name: "Hamza F.",
-    tag: "BSCS · ID 2065",
-    image: "/s5.jpg",
-    quote: "I arrived speaking almost no English. Two years later I was presenting at the tech conference. Every professor here corrects your grammar like they believe you'll use it.",
-    year: "BSCS",
-    since: "Since 2022",
-    club: "Tech Club",
-  },
-  {
-    name: "Aleena T.",
-    tag: "BBA · ID 2588",
-    image: "/s6.jpg",
-    quote: "I was the new student in the middle of the semester, which is the worst time to be new. Three people asked me to sit with them on day one. I still sit with two of them.",
-    year: "BBA",
-    since: "Since 2024",
-    club: "Art Studio",
-  },
-  {
-    name: "Zain A.",
-    tag: "BSCS · ID 1994",
-    image: "/s7.jpg",
-    quote: "Job applications terrified me. My faculty advisor read four drafts of my resume and never once made me feel like a burden for asking.",
-    year: "BSCS",
-    since: "Since 2022",
-    club: "Tech Club",
-  },
-];
+interface TestimonialsData {
+  badgeText: string;
+  heading: string;
+  description: string;
+  hintText: string;
+  students: Student[];
+}
 
+const DEFAULT_DATA: TestimonialsData = {
+  badgeText: "Testimonials",
+  heading: "What our students say",
+  description: "Tap on any student card to read their full story and feedback.",
+  hintText: "Tap on card to read full feedback",
+  students: [
+    {
+      id: 1,
+      name: "Maya K.",
+      tag: "BSCS · ID 2309",
+      image: "/s2.jpg",
+      quote: "The library used to be my least favourite place. Now I go there just to think.",
+      year: "BSCS",
+      since: "Since 2023",
+      club: "Library Club",
+    },
+    {
+      id: 2,
+      name: "Daniyal O.",
+      tag: "BBA · ID 2147",
+      image: "/s3.jpg",
+      quote: "I joined the business society to network, if I'm honest.",
+      year: "BBA",
+      since: "Since 2021",
+      club: "Business Society",
+    },
+    {
+      id: 3,
+      name: "Sana R.",
+      tag: "BA · ID 2461",
+      image: "/s4.jpg",
+      quote: "My professor noticed I'd gone quiet before I did.",
+      year: "BA",
+      since: "Since 2024",
+      club: "Art Studio",
+    },
+  ],
+};
+
+// ----------------------------------------------------------------------------
+// In-memory cache — 60s TTL
+// ----------------------------------------------------------------------------
+interface CacheEntry {
+  data: TestimonialsData;
+  expiresAt: number;
+}
+
+const testimonialsCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 60_000;
+
+function cacheGet(key: string): TestimonialsData | null {
+  const entry = testimonialsCache.get(key);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) {
+    testimonialsCache.delete(key);
+    return null;
+  }
+  return entry.data;
+}
+
+function cacheSet(key: string, data: TestimonialsData): void {
+  testimonialsCache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+  setTimeout(() => {
+    const cur = testimonialsCache.get(key);
+    if (cur && cur.expiresAt <= Date.now()) testimonialsCache.delete(key);
+  }, CACHE_TTL_MS + 50);
+}
+
+// ----------------------------------------------------------------------------
+// Flip icon
+// ----------------------------------------------------------------------------
 const FLIP_ICON = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-[15px] w-[15px]">
     <path d="M4 4v6h6M20 20v-6h-6" />
@@ -86,8 +114,18 @@ const FLIP_ICON = (
   </svg>
 );
 
+// ----------------------------------------------------------------------------
+// Component
+// ----------------------------------------------------------------------------
 export default function TestimonialsSection() {
-  const total = students.length;
+  const [mounted, setMounted] = useState(false);
+  const [data, setData] = useState<TestimonialsData>(DEFAULT_DATA);
+
+  // ✅ Hardcoded college ID
+  const collegeId = "10";
+  const CACHE_KEY = `testimonials_${collegeId}`;
+
+  // UI state
   const [current, setCurrentState] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -103,18 +141,77 @@ export default function TestimonialsSection() {
   const stackWrapRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ startX: 0, isDown: false, moved: false });
 
+  const students = data.students || [];
+  const total = students.length || 1;
+
+  // ✅ Mounted flag
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    setMounted(true);
   }, []);
 
+  // ✅ Fetch data
+  useEffect(() => {
+    if (!mounted) return;
+
+    const cached = cacheGet(CACHE_KEY);
+    if (cached) {
+      setData(cached);
+      return;
+    }
+
+    async function fetchTestimonials() {
+      try {
+        const res = await fetch(
+          `https://dynamic-section-api.vercel.app/api/public/sections?college_id=${collegeId}&section_name=Testimonials`
+        );
+        const result = await res.json();
+
+        let fetched: TestimonialsData = DEFAULT_DATA;
+
+        if (result.success && result.content) {
+          const c = result.content;
+          fetched = {
+            badgeText: c.badgeText || DEFAULT_DATA.badgeText,
+            heading: c.heading || DEFAULT_DATA.heading,
+            description: c.description || DEFAULT_DATA.description,
+            hintText: c.hintText || DEFAULT_DATA.hintText,
+            students:
+              Array.isArray(c.students) && c.students.length > 0
+                ? c.students.map((s: any, idx: number) => ({
+                    id: s.id ?? idx + 1,
+                    name: s.name || "Student",
+                    tag: s.tag || "",
+                    quote: s.quote || "",
+                    image: s.image || "/s2.jpg",
+                    year: s.year || "",
+                    since: s.since || "",
+                    club: s.club || "",
+                  }))
+                : DEFAULT_DATA.students,
+          };
+        }
+
+        cacheSet(CACHE_KEY, fetched);
+        setData(fetched);
+      } catch (err) {
+        console.error("❌ [Testimonials] Error:", err);
+        setData(DEFAULT_DATA);
+      }
+    }
+
+    fetchTestimonials();
+  }, [mounted]);
+
+  // Mobile check
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -123,22 +220,12 @@ export default function TestimonialsSection() {
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
-
     const currentRef = sectionRef.current;
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
+    if (currentRef) observer.observe(currentRef);
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
   }, []);
 
@@ -150,6 +237,7 @@ export default function TestimonialsSection() {
     [total]
   );
 
+  // Drag handlers
   useEffect(() => {
     const wrap = stackWrapRef.current;
     if (!wrap) return;
@@ -211,13 +299,13 @@ export default function TestimonialsSection() {
   const openModal = (student: Student) => {
     setSelectedStudent(student);
     setIsModalOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedStudent(null);
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   };
 
   const getCardStyle = (index: number): React.CSSProperties => {
@@ -250,6 +338,11 @@ export default function TestimonialsSection() {
     };
   };
 
+  // Guard — kuch data nahi
+  if (students.length === 0) {
+    return null;
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -258,7 +351,7 @@ export default function TestimonialsSection() {
       className={`${poppins.className} relative overflow-hidden bg-[#0B0F19] px-4 sm:px-6 pb-[60px] sm:pb-[90px] pt-[50px] sm:pt-[76px]`}
       style={{ "--mx": `${spot.mx}%`, "--my": `${spot.my}%` } as React.CSSProperties}
     >
-      {/* Spotlight Effect - Gold accent on dark */}
+      {/* Spotlight */}
       <div
         className="pointer-events-none absolute inset-0 transition-[background] duration-100 hidden md:block"
         style={{
@@ -267,48 +360,38 @@ export default function TestimonialsSection() {
       />
 
       <div className="relative mx-auto max-w-[1180px]">
-        {/* Header - Left Aligned */}
+        {/* Header */}
         <div className="mb-3 sm:mb-4">
-          {/* Badge */}
           <div
             className={`transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-[300px]"
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[300px]"
             }`}
-            style={{ transitionDelay: "0ms" }}
           >
             <p className="mb-2 sm:mb-3 text-[11px] sm:text-sm font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#E8CA5E] flex items-center gap-2 sm:gap-2.5">
               <span className="block h-px w-[18px] sm:w-[26px] bg-[#E8CA5E]" />
-              Testimonials
+              {data.badgeText}
             </p>
           </div>
 
-          {/* Heading */}
           <div
             className={`transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-[400px]"
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[400px]"
             }`}
             style={{ transitionDelay: "150ms" }}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white">
-              What our students say
+              {data.heading}
             </h2>
           </div>
 
-          {/* Description */}
           <div
             className={`transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-[350px]"
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[350px]"
             }`}
             style={{ transitionDelay: "300ms" }}
           >
             <p className="text-[#9CA3AF] mt-2 sm:mt-3 max-w-2xl text-sm sm:text-base">
-              Tap on any student card to read their full story and feedback.
+              {data.description}
             </p>
           </div>
         </div>
@@ -316,9 +399,7 @@ export default function TestimonialsSection() {
         {/* Counter */}
         <div
           className={`flex justify-end pb-1.5 font-mono text-xs sm:text-sm tracking-[0.08em] text-[#9CA3AF] transition-all duration-1000 ease-out ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-[30px]"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[30px]"
           }`}
           style={{ transitionDelay: "400ms" }}
         >
@@ -328,12 +409,10 @@ export default function TestimonialsSection() {
           /<span>{String(total).padStart(2, "0")}</span>
         </div>
 
-        {/* Hint Text */}
+        {/* Hint */}
         <div
           className={`transition-all duration-1000 ease-out ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-[30px]"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[30px]"
           }`}
           style={{ transitionDelay: "450ms" }}
         >
@@ -342,16 +421,14 @@ export default function TestimonialsSection() {
               <path d="M9 12h6M12 9v6" />
               <circle cx="12" cy="12" r="9" />
             </svg>
-            Tap on card to read full feedback
+            {data.hintText}
           </p>
         </div>
 
-        {/* Card Stack */}
+        {/* Card stack */}
         <div
           className={`transition-all duration-1000 ease-out ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-[80px]"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[80px]"
           }`}
           style={{ transitionDelay: "500ms" }}
         >
@@ -367,18 +444,17 @@ export default function TestimonialsSection() {
                 const cardStyle = getCardStyle(i);
                 if (isMobile) {
                   const diff = (i - current + total) % total;
-                  if (diff === 0) {
-                  } else if (diff === 1) {
+                  if (diff === 1) {
                     cardStyle.transform = "translateX(100px) translateZ(-100px) rotateY(-20deg) scale(.8)";
                   } else if (diff === total - 1) {
                     cardStyle.transform = "translateX(-100px) translateZ(-100px) rotateY(20deg) scale(.8)";
-                  } else {
+                  } else if (diff !== 0) {
                     cardStyle.transform = "translateX(0) translateZ(-200px) scale(.65)";
                   }
                 }
                 return (
                   <div
-                    key={student.name}
+                    key={student.id || student.name}
                     ref={isFront ? frontCardRef : undefined}
                     onClick={() => {
                       if (isFront) {
@@ -394,7 +470,7 @@ export default function TestimonialsSection() {
                       className="preserve-3d relative h-full w-full transition-transform duration-[600ms] ease-[cubic-bezier(.3,.9,.2,1)]"
                       style={{ transform: isFront && flipped ? "rotateY(180deg)" : undefined }}
                     >
-                      {/* front face — photo */}
+                      {/* Front face */}
                       <div className="backface-hidden absolute inset-0 flex flex-col overflow-hidden rounded-[16px] sm:rounded-[20px] bg-[#111722] shadow-[0_30px_60px_-24px_rgba(0,0,0,0.6)] border border-white/5">
                         {isFront && (
                           <span
@@ -444,7 +520,7 @@ export default function TestimonialsSection() {
                         </div>
                       </div>
 
-                      {/* back face — quote */}
+                      {/* Back face */}
                       <div className="backface-hidden absolute inset-0 flex flex-col justify-center overflow-hidden rounded-[16px] sm:rounded-[20px] bg-[#0B0F19] p-[20px_18px] sm:p-[26px_22px] text-white [transform:rotateY(180deg)] border border-white/5">
                         <button
                           type="button"
@@ -476,9 +552,7 @@ export default function TestimonialsSection() {
         {/* Controls */}
         <div
           className={`flex flex-col items-center gap-4 sm:gap-5 transition-all duration-1000 ease-out ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-[60px]"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[60px]"
           }`}
           style={{ transitionDelay: "600ms" }}
         >
@@ -503,7 +577,7 @@ export default function TestimonialsSection() {
           <div className="flex gap-2 sm:gap-2.5">
             {students.map((student, i) => (
               <button
-                key={student.name}
+                key={student.id || student.name}
                 type="button"
                 aria-label={`Go to student ${i + 1}`}
                 onClick={() => goTo(i)}
@@ -526,7 +600,6 @@ export default function TestimonialsSection() {
             className="relative max-w-2xl w-full animate-in zoom-in duration-300"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={closeModal}
               className="absolute -top-10 sm:-top-12 right-0 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-white hover:text-[#E8CA5E] transition-colors cursor-pointer z-10"
@@ -535,9 +608,7 @@ export default function TestimonialsSection() {
               <X className="w-6 h-6 sm:w-8 sm:h-8" strokeWidth={2} />
             </button>
 
-            {/* Content */}
             <div className="text-center px-2 sm:px-0">
-              {/* Image */}
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden mx-auto mb-4 sm:mb-6 border-2 border-[#E8CA5E]/30">
                 <img
                   src={selectedStudent.image}
@@ -546,7 +617,6 @@ export default function TestimonialsSection() {
                 />
               </div>
 
-              {/* Name */}
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
                 {selectedStudent.name}
               </h3>
@@ -554,23 +624,26 @@ export default function TestimonialsSection() {
                 {selectedStudent.tag}
               </p>
 
-              {/* Meta Chips */}
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                <span className="text-[10px] sm:text-xs font-medium text-[#E8CA5E] bg-[rgba(232,202,94,0.15)] px-2.5 sm:px-3 py-1 rounded-full">
-                  {selectedStudent.year}
-                </span>
-                <span className="text-[10px] sm:text-xs font-medium text-white/70 bg-white/10 px-2.5 sm:px-3 py-1 rounded-full">
-                  {selectedStudent.since}
-                </span>
-                <span className="text-[10px] sm:text-xs font-medium text-[#E8CA5E] bg-[rgba(232,202,94,0.15)] px-2.5 sm:px-3 py-1 rounded-full">
-                  {selectedStudent.club}
-                </span>
+                {selectedStudent.year && (
+                  <span className="text-[10px] sm:text-xs font-medium text-[#E8CA5E] bg-[rgba(232,202,94,0.15)] px-2.5 sm:px-3 py-1 rounded-full">
+                    {selectedStudent.year}
+                  </span>
+                )}
+                {selectedStudent.since && (
+                  <span className="text-[10px] sm:text-xs font-medium text-white/70 bg-white/10 px-2.5 sm:px-3 py-1 rounded-full">
+                    {selectedStudent.since}
+                  </span>
+                )}
+                {selectedStudent.club && (
+                  <span className="text-[10px] sm:text-xs font-medium text-[#E8CA5E] bg-[rgba(232,202,94,0.15)] px-2.5 sm:px-3 py-1 rounded-full">
+                    {selectedStudent.club}
+                  </span>
+                )}
               </div>
 
-              {/* Divider */}
               <div className="w-10 sm:w-12 h-[2px] bg-[#E8CA5E] mx-auto mb-4 sm:mb-6" />
 
-              {/* Quote */}
               <p className="text-white/90 text-base sm:text-lg leading-relaxed px-2 sm:px-0">
                 "{selectedStudent.quote}"
               </p>

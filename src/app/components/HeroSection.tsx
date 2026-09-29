@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
@@ -10,8 +11,56 @@ const BG = "#0B0F19";
 const GOLD = "#E8CA5E";
 const BLUE = "#0066FF";
 
-// Multiple slides data
-const SLIDES = [
+// ----------------------------------------------------------------------------
+// Types
+// ----------------------------------------------------------------------------
+interface SlideData {
+  id: number;
+  image: string;
+  mobileImage: string | null;
+  heading: string;
+  description: string;
+}
+
+interface HeroData {
+  slides: SlideData[];
+}
+
+// ----------------------------------------------------------------------------
+// In-memory cache (module-level) — 60s TTL
+// ----------------------------------------------------------------------------
+interface CacheEntry {
+  data: HeroData;
+  expiresAt: number;
+}
+
+const heroCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 60_000;
+
+function cacheGet(key: string): HeroData | null {
+  const entry = heroCache.get(key);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) {
+    heroCache.delete(key);
+    console.log(`🗑️ [HeroCache] Expired: "${key}"`);
+    return null;
+  }
+  return entry.data;
+}
+
+function cacheSet(key: string, data: HeroData): void {
+  heroCache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+  console.log(`✅ [HeroCache] Set: "${key}"`);
+  setTimeout(() => {
+    const cur = heroCache.get(key);
+    if (cur && cur.expiresAt <= Date.now()) heroCache.delete(key);
+  }, CACHE_TTL_MS + 50);
+}
+
+// ----------------------------------------------------------------------------
+// Default slides (fallback)
+// ----------------------------------------------------------------------------
+const DEFAULT_SLIDES: SlideData[] = [
   {
     id: 1,
     image: "/Hero/desktop1.png",
@@ -31,8 +80,6 @@ const SLIDES = [
   {
     id: 3,
     image: "/Hero/desktop3.png",
-    // Only two mobile-specific images were provided, so this slide falls
-    // back to the desktop image on mobile too.
     mobileImage: null,
     heading: "A Place Where Potential Becomes Success",
     description:
@@ -47,11 +94,9 @@ const TRANSITION_DURATION = 1000;
 function chunkHeading(text: string, wordsPerLine: number): string[] {
   const words = text.trim().split(/\s+/);
   const lines: string[] = [];
-
   for (let i = 0; i < words.length; i += wordsPerLine) {
     lines.push(words.slice(i, i + wordsPerLine).join(" "));
   }
-
   return lines;
 }
 
@@ -59,9 +104,84 @@ export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [prevSlide, setPrevSlide] = useState<number | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // ✅ Dynamic slides — default se start, API se update honge
+  const [slides, setSlides] = useState<SlideData[]>(DEFAULT_SLIDES);
+
   const sectionRef = useRef<HTMLElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  // ✅ Hardcoded college ID
+  const collegeId = "10";
+  const CACHE_KEY = `hero_slides_${collegeId}`;
+/* eslint-disable react-hooks/set-state-in-effect */
+  // --------------------------------------------------------------------------
+  // Mounted flag — hydration fix
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // --------------------------------------------------------------------------
+  // Fetch hero slides
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!mounted) return;
+
+    // ✅ Cache check
+    const cached = cacheGet(CACHE_KEY);
+    if (cached && cached.slides.length > 0) {
+      console.log("📦 [Hero] Loading from memory cache (instant)");
+      setSlides(cached.slides);
+      return;
+    }
+
+    async function fetchHero() {
+      try {
+        console.log("🔄 [Hero] Fetching for college:", collegeId);
+        const res = await fetch(
+          `https://dynamic-section-api.vercel.app/api/public/sections?college_id=${collegeId}&section_name=Hero`
+        );
+        const result = await res.json();
+        console.log("📦 [Hero] API Response:", result);
+
+        let fetchedSlides: SlideData[] = DEFAULT_SLIDES;
+
+        // ✅ Try different possible response shapes
+        const content = result?.content;
+        const rawSlides =
+          content?.slides ||
+          content?.heroSlides ||
+          (Array.isArray(content) ? content : null);
+
+        if (result.success && Array.isArray(rawSlides) && rawSlides.length > 0) {
+          fetchedSlides = rawSlides.map((s: any, idx: number) => ({
+            id: idx + 1,
+            image: s.desktopImage || s.image || s.desktop || "/Hero/desktop1.png",
+            mobileImage: s.mobileImage || s.mobile || null,
+            heading: s.title || s.heading || "Untitled",
+            description: s.desc || s.description || "",
+          }));
+          console.log("✅ [Hero] Slides loaded:", fetchedSlides.length);
+        } else {
+          console.log("⚠️ [Hero] No slides from API, using defaults");
+        }
+
+        cacheSet(CACHE_KEY, { slides: fetchedSlides });
+        setSlides(fetchedSlides);
+      } catch (err) {
+        console.error("❌ [Hero] Error:", err);
+        setSlides(DEFAULT_SLIDES);
+      }
+    }
+
+    fetchHero();
+  }, [mounted]);
+
+  // --------------------------------------------------------------------------
+  // Navigation
+  // --------------------------------------------------------------------------
   const goToSlide = (index: number) => {
     setCurrentSlide((current) => {
       if (index === current) return current;
@@ -70,63 +190,61 @@ export default function HeroSection() {
     });
   };
 
-  // Set loaded state after component mounts
+  // --------------------------------------------------------------------------
+  // Loaded flag (entry animation)
+  // --------------------------------------------------------------------------
   useEffect(() => {
-    // Defer state update to next animation frame to avoid synchronous setState
-    // which can trigger cascading renders and lint warnings.
     let raf = 0;
     if (typeof window !== "undefined" && window.requestAnimationFrame) {
       raf = window.requestAnimationFrame(() => setIsLoaded(true));
     } else {
-      // Fallback for environments without requestAnimationFrame
       const t = setTimeout(() => setIsLoaded(true), 0);
       return () => clearTimeout(t);
     }
-
     return () => {
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
-  // Auto slide change every 5 seconds
+  // --------------------------------------------------------------------------
+  // Auto slide
+  // --------------------------------------------------------------------------
   useEffect(() => {
+    if (slides.length === 0) return;
     const interval = setInterval(() => {
-      goToSlide((currentSlide + 1) % SLIDES.length);
+      goToSlide((currentSlide + 1) % slides.length);
     }, SLIDE_DURATION);
-
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSlide]);
+  }, [currentSlide, slides.length]);
 
-  // Clear the "previous" slide once its exit animation finishes
+  // --------------------------------------------------------------------------
+  // Clear prev slide after transition
+  // --------------------------------------------------------------------------
   useEffect(() => {
     if (prevSlide === null) return;
     const timeout = setTimeout(() => setPrevSlide(null), TRANSITION_DURATION);
     return () => clearTimeout(timeout);
   }, [prevSlide]);
 
-  // Handle mouse movement for parallax
+  // --------------------------------------------------------------------------
+  // Mouse parallax
+  // --------------------------------------------------------------------------
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!sectionRef.current) return;
-
       const rect = sectionRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-
       setMousePosition({ x, y });
     };
-
-    const handleMouseLeave = () => {
-      setMousePosition({ x: 0, y: 0 });
-    };
+    const handleMouseLeave = () => setMousePosition({ x: 0, y: 0 });
 
     const section = sectionRef.current;
     if (section) {
       section.addEventListener("mousemove", handleMouseMove);
       section.addEventListener("mouseleave", handleMouseLeave);
     }
-
     return () => {
       if (section) {
         section.removeEventListener("mousemove", handleMouseMove);
@@ -138,7 +256,9 @@ export default function HeroSection() {
   const parallaxX = mousePosition.x * 20;
   const parallaxY = mousePosition.y * 20;
 
-  const currentSlideData = SLIDES[currentSlide];
+  // ✅ Safe access — agar slides empty hain to pehla default use karo
+  const safeSlides = slides.length > 0 ? slides : DEFAULT_SLIDES;
+  const currentSlideData = safeSlides[currentSlide] || safeSlides[0];
   const headingLines = chunkHeading(currentSlideData.heading, WORDS_PER_LINE);
 
   return (
@@ -147,9 +267,9 @@ export default function HeroSection() {
       className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden cursor-pointer"
       style={{ backgroundColor: BG }}
     >
-      {/* Background images — current slides up and out, next slides in from the bottom */}
+      {/* Background images */}
       <div className="absolute inset-0">
-        {SLIDES.map((slide, index) => {
+        {safeSlides.map((slide, index) => {
           const isCurrent = index === currentSlide;
           const isPrev = index === prevSlide;
 
@@ -187,6 +307,7 @@ export default function HeroSection() {
                     priority={index === 0}
                     className="block object-cover object-bottom sm:hidden"
                     sizes="100vw"
+                    unoptimized
                   />
                   <Image
                     src={slide.image}
@@ -195,6 +316,7 @@ export default function HeroSection() {
                     priority={index === 0}
                     className="hidden object-cover object-bottom sm:block"
                     sizes="100vw"
+                    unoptimized
                   />
                 </>
               ) : (
@@ -205,6 +327,7 @@ export default function HeroSection() {
                   priority={index === 0}
                   className="object-cover object-bottom"
                   sizes="100vw"
+                  unoptimized
                 />
               )}
             </div>
@@ -212,20 +335,18 @@ export default function HeroSection() {
         })}
       </div>
 
-      {/* Flat dark overlay for legibility — no gradient */}
+      {/* Dark overlay */}
       <div
         className="absolute inset-0 z-10"
         style={{ backgroundColor: "rgba(11,15,25,0.35)" }}
       />
 
-      {/* Content with entry animations */}
+      {/* Content */}
       <div className="relative z-20 mx-auto max-w-3xl px-6 pb-24 pt-10 text-center text-white overflow-hidden">
-        {/* Welcome Badge - Slides in from LEFT */}
+        {/* Welcome Badge */}
         <div
           className={`transition-all duration-1000 ease-out ${
-            isLoaded
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 -translate-x-[200px]"
+            isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[200px]"
           }`}
           style={{ transitionDelay: "0ms" }}
         >
@@ -237,12 +358,10 @@ export default function HeroSection() {
           </p>
         </div>
 
-        {/* Heading - Slides in from LEFT with delay */}
+        {/* Heading */}
         <div
           className={`transition-all duration-1000 ease-out ${
-            isLoaded
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 -translate-x-[300px]"
+            isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[300px]"
           }`}
           style={{ transitionDelay: "200ms" }}
         >
@@ -258,12 +377,10 @@ export default function HeroSection() {
           </h1>
         </div>
 
-        {/* Description - Slides UP from BOTTOM */}
+        {/* Description */}
         <div
           className={`transition-all duration-1000 ease-out ${
-            isLoaded
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-[200px]"
+            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[200px]"
           }`}
           style={{ transitionDelay: "400ms" }}
         >
@@ -275,12 +392,10 @@ export default function HeroSection() {
           </p>
         </div>
 
-        {/* Buttons - Slide UP from BOTTOM with delay (fixed across all slides) */}
+        {/* Buttons */}
         <div
           className={`transition-all duration-1000 ease-out ${
-            isLoaded
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-[250px]"
+            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[250px]"
           }`}
           style={{ transitionDelay: "600ms" }}
         >
@@ -302,9 +417,9 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Slide indicators / dots */}
+      {/* Slide indicators */}
       <div className="absolute bottom-28 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-        {SLIDES.map((_, index) => (
+        {safeSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
@@ -322,10 +437,7 @@ export default function HeroSection() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 z-20 flex h-11 w-11 -translate-x-1/2 animate-bounce items-center justify-center rounded-full border border-white/60">
-        <svg
-          viewBox="0 0 24 24"
-          className="h-4 w-4 fill-none stroke-white stroke-2"
-        >
+        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-white stroke-2">
           <path d="M12 4v16m0 0l-6-6m6 6l6-6" />
         </svg>
       </div>

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -8,22 +11,133 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+// ----------------------------------------------------------------------------
+// Types
+// ----------------------------------------------------------------------------
 interface Step {
   id: string;
   number: string;
   title: string;
   description: string[];
   color: string;
-  cx: number;
-  cy: number;
-  textX: number;
 }
 
+interface HowWeTeachData {
+  badgeText: string;
+  heading: string;
+  headingHighlight: string;
+  subtitle: string;
+  steps: Step[];
+}
+
+// ----------------------------------------------------------------------------
+// In-memory cache — 60s TTL
+// ----------------------------------------------------------------------------
+interface CacheEntry {
+  data: HowWeTeachData;
+  expiresAt: number;
+}
+
+const howWeTeachCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 60_000;
+
+function cacheGet(key: string): HowWeTeachData | null {
+  const entry = howWeTeachCache.get(key);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) {
+    howWeTeachCache.delete(key);
+    return null;
+  }
+  return entry.data;
+}
+
+function cacheSet(key: string, data: HowWeTeachData): void {
+  howWeTeachCache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+  setTimeout(() => {
+    const cur = howWeTeachCache.get(key);
+    if (cur && cur.expiresAt <= Date.now()) howWeTeachCache.delete(key);
+  }, CACHE_TTL_MS + 50);
+}
+
+// ----------------------------------------------------------------------------
+// Component
+// ----------------------------------------------------------------------------
 export default function HowWeTeach() {
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [data, setData] = useState<HowWeTeachData | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  const collegeId = "10";
+  const CACHE_KEY = `how_we_teach_${collegeId}`;
+
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const cached = cacheGet(CACHE_KEY);
+    if (cached && cached.steps.length > 0) {
+      console.log("📦 [HowWeTeach] Loading from memory cache");
+      setData(cached);
+      return;
+    }
+
+    async function fetchHowWeTeach() {
+      try {
+        console.log("🔄 [HowWeTeach] Fetching for college:", collegeId);
+        const res = await fetch(
+          `https://dynamic-section-api.vercel.app/api/public/sections?college_id=${collegeId}&section_name=HowWeTeach`
+        );
+        const result = await res.json();
+        console.log("📦 [HowWeTeach] API Response:", result);
+
+        if (
+          result.success &&
+          result.content &&
+          Array.isArray(result.content.steps) &&
+          result.content.steps.length > 0
+        ) {
+          const c = result.content;
+          const fetched: HowWeTeachData = {
+            badgeText: c.badgeText || "HOW WE TEACH",
+            heading: c.heading || "Our Learning",
+            headingHighlight: c.headingHighlight || "Methodology",
+            subtitle: c.subtitle || "",
+            steps: c.steps.map((s: any, idx: number) => ({
+              id: s.id || `step_${idx}`,
+              number: s.number || String(idx + 1).padStart(2, "0"),
+              title: s.title || "",
+              description: Array.isArray(s.description)
+                ? s.description
+                : typeof s.description === "string"
+                ? [s.description]
+                : [],
+              color: s.color || "#E8CA5E",
+            })),
+          };
+          console.log("✅ [HowWeTeach] Data loaded:", fetched.steps.length);
+          cacheSet(CACHE_KEY, fetched);
+          setData(fetched);
+        } else {
+          console.log("⚠️ [HowWeTeach] No data from API");
+          setData(null);
+        }
+      } catch (err) {
+        console.error("❌ [HowWeTeach] Error:", err);
+        setData(null);
+      }
+    }
+
+    fetchHowWeTeach();
+  }, [mounted]);
+
+  // Intersection observer
+  useEffect(() => {
+    if (!data) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -40,101 +154,68 @@ export default function HowWeTeach() {
     return () => {
       if (currentRef) observer.unobserve(currentRef);
     };
-  }, []);
+  }, [data]);
 
-  // Theme Colors - Updated to match Al Noor College theme
-  const colors = {
-    c1: "#E8CA5E", // Gold
-    c2: "#E8CA5E", // Gold
-    c3: "#E8CA5E", // Gold
-    c4: "#E8CA5E", // Gold
-    chevron: "#2A2F3F",
-    navy: "#0B0F19",
-    gray: "#9CA3AF",
-    bg: "#111722",
-    surface: "#0B0F19",
-  };
+  // ✅ Data nahi to kuch nahi
+  if (!mounted || !data || data.steps.length === 0) return null;
 
-  const steps: Step[] = [
-    {
-      id: "interactive",
-      number: "01",
-      title: "Interactive Learning",
-      description: ["Engaging students through", "discussions, group work, and", "hands-on activities."],
-      color: colors.c1,
-      cx: 90,
-      cy: 210,
-      textX: 155,
-    },
-    {
-      id: "inquiry",
-      number: "02",
-      title: "Inquiry-Based Approach",
-      description: ["Encouraging curiosity and", "critical thinking through", "questioning and exploration."],
-      color: colors.c2,
-      cx: 360,
-      cy: 378,
-      textX: 430,
-    },
-    {
-      id: "collaborative",
-      number: "03",
-      title: "Collaborative Culture",
-      description: ["Fostering teamwork,", "communication, and", "peer-to-peer learning."],
-      color: colors.c3,
-      cx: 565,
-      cy: 540,
-      textX: 635,
-    },
-    {
-      id: "personalized",
-      number: "04",
-      title: "Personalized Support",
-      description: ["Tailoring teaching to meet", "individual student needs", "and learning styles."],
-      color: colors.c4,
-      cx: 830,
-      cy: 678,
-      textX: 900,
-    },
+  // ==================== POSITIONS (same for any number of steps) ====================
+  // Har step ke liye hardcoded positions — same staircase pattern
+  const stepPositions = [
+    { cx: 90, cy: 210, textX: 155 },
+    { cx: 360, cy: 378, textX: 430 },
+    { cx: 565, cy: 540, textX: 635 },
+    { cx: 830, cy: 678, textX: 900 },
   ];
 
-  const dottedArc = (cx: number, cy: number) =>
-    `M${cx - 18},${cy + 49} A52,52 0 0,1 ${cx - 40},${cy - 33}`;
+  // Steps ko positions ke saath merge karo
+  const positionedSteps = data.steps.map((step, idx) => {
+    const pos = stepPositions[idx % stepPositions.length];
+    return { ...step, ...pos };
+  });
 
+  // ==================== CONNECTORS (same for any number of steps) ====================
   const connectors = [
-    { 
-      seg1: "M90,256 V362 A16,16 0 0,0 106,378 H197", 
-      seg2: "M217,378 H308", 
-      c1: colors.c1, 
-      c2: colors.c2, 
-      delay1: 200, 
-      delay2: 500, 
-      chevron: { x: 198, y: 371 }, 
-      chevronDelay: 600 
+    {
+      seg1: "M90,256 V362 A16,16 0 0,0 106,378 H197",
+      seg2: "M217,378 H308",
+      c1: positionedSteps[0]?.color || "#E8CA5E",
+      c2: positionedSteps[1]?.color || "#E8CA5E",
+      delay1: 200,
+      delay2: 500,
+      chevron: { x: 198, y: 371 },
+      chevronDelay: 600,
     },
-    { 
-      seg1: "M360,424 V524 A16,16 0 0,0 376,540 H434", 
-      seg2: "M454,540 H513", 
-      c1: colors.c2, 
-      c2: colors.c3, 
-      delay1: 800, 
-      delay2: 1100, 
-      chevron: { x: 435, y: 533 }, 
-      chevronDelay: 1200 
+    {
+      seg1: "M360,424 V524 A16,16 0 0,0 376,540 H434",
+      seg2: "M454,540 H513",
+      c1: positionedSteps[1]?.color || "#E8CA5E",
+      c2: positionedSteps[2]?.color || "#E8CA5E",
+      delay1: 800,
+      delay2: 1100,
+      chevron: { x: 435, y: 533 },
+      chevronDelay: 1200,
     },
-    { 
+    {
       seg1: "M565,586 V662 A16,16 0 0,0 581,678 H669",
       seg2: "M689,678 H778",
-      c1: colors.c3, 
-      c2: colors.c4, 
-      delay1: 1400, 
-      delay2: 1700, 
+      c1: positionedSteps[2]?.color || "#E8CA5E",
+      c2: positionedSteps[3]?.color || "#E8CA5E",
+      delay1: 1400,
+      delay2: 1700,
       chevron: { x: 670, y: 671 },
-      chevronDelay: 1800 
+      chevronDelay: 1800,
     },
   ];
 
-  const icons: Record<string, React.ReactNode> = {
+  // Theme Colors
+  const colors = {
+    chevron: "#2A2F3F",
+    gray: "#9CA3AF",
+  };
+
+  // Step ID to icon map
+  const iconById: Record<string, React.ReactNode> = {
     interactive: (
       <>
         <path d="M12 6C10 4.5 7 4 4 4.5V17c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5C17 4 14 4.5 12 6z" />
@@ -162,6 +243,21 @@ export default function HowWeTeach() {
     ),
   };
 
+  // Default fallback icons by index
+  const defaultIcons = [
+    iconById.interactive,
+    iconById.inquiry,
+    iconById.collaborative,
+    iconById.personalized,
+  ];
+
+  const getIcon = (stepId: string, index: number) => {
+    return iconById[stepId] || defaultIcons[index % defaultIcons.length];
+  };
+
+  const dottedArc = (cx: number, cy: number) =>
+    `M${cx - 18},${cy + 49} A52,52 0 0,1 ${cx - 40},${cy - 33}`;
+
   return (
     <div ref={sectionRef} className={`${poppins.className} w-full bg-[#111722] overflow-hidden`}>
       <div className="max-w-[1080px] mx-auto px-5 sm:px-6 py-12">
@@ -171,11 +267,11 @@ export default function HowWeTeach() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
         >
-          <span className="w-11 h-[2px] rounded-full" style={{ backgroundColor: colors.c1 }} />
+          <span className="w-11 h-[2px] rounded-full" style={{ backgroundColor: positionedSteps[0]?.color || "#E8CA5E" }} />
           <span className="font-bold text-[13px] tracking-[3px] text-[#E8CA5E]">
-            HOW WE TEACH
+            {data.badgeText}
           </span>
-          <span className="w-11 h-[2px] rounded-full" style={{ backgroundColor: colors.c1 }} />
+          <span className="w-11 h-[2px] rounded-full" style={{ backgroundColor: positionedSteps[0]?.color || "#E8CA5E" }} />
         </div>
 
         {/* Heading - Center */}
@@ -185,7 +281,10 @@ export default function HowWeTeach() {
           }`}
           style={{ color: "#FFFFFF" }}
         >
-          Our Learning <span style={{ color: colors.c1 }}>Methodology</span>
+          {data.heading}{" "}
+          <span style={{ color: positionedSteps[0]?.color || "#E8CA5E" }}>
+            {data.headingHighlight}
+          </span>
         </h1>
 
         {/* Subtitle - Center */}
@@ -195,7 +294,7 @@ export default function HowWeTeach() {
           }`}
           style={{ color: colors.gray }}
         >
-          Innovative approaches that make learning engaging, effective, and fun for every student.
+          {data.subtitle}
         </p>
 
         {/* ============ DESKTOP / TABLET: SVG staircase diagram ============ */}
@@ -252,9 +351,9 @@ export default function HowWeTeach() {
               </g>
             ))}
 
-            {/* Steps - Staggered bottom to top connection */}
-            {steps.map((step, index) => {
-              const prevColor = index === 0 ? step.color : steps[index - 1].color;
+            {/* Steps */}
+            {positionedSteps.map((step, index) => {
+              const prevColor = index === 0 ? step.color : positionedSteps[index - 1].color;
               const delay = 200 + index * 300;
               return (
                 <g
@@ -289,10 +388,10 @@ export default function HowWeTeach() {
                     strokeLinejoin="round"
                     strokeLinecap="round"
                   >
-                    {icons[step.id]}
+                    {getIcon(step.id, index)}
                   </g>
 
-                  {/* text - with Poppins font */}
+                  {/* number */}
                   <text
                     x={step.textX}
                     y={step.cy - 18}
@@ -306,10 +405,12 @@ export default function HowWeTeach() {
                   >
                     {step.number}
                   </text>
-                  <text 
-                    x={step.textX} 
-                    y={step.cy + 24} 
-                    className={`font-['Poppins',sans-serif] font-bold text-[17px]`} 
+
+                  {/* title */}
+                  <text
+                    x={step.textX}
+                    y={step.cy + 24}
+                    className={`font-['Poppins',sans-serif] font-bold text-[17px]`}
                     fill="#FFFFFF"
                     style={{
                       opacity: isVisible ? 1 : 0,
@@ -319,6 +420,8 @@ export default function HowWeTeach() {
                   >
                     {step.title}
                   </text>
+
+                  {/* description lines */}
                   {step.description.map((line, i) => (
                     <text
                       key={i}
@@ -344,8 +447,8 @@ export default function HowWeTeach() {
         {/* ============ MOBILE: stacked layout ============ */}
         <div className="sm:hidden">
           <div className="flex flex-col gap-6">
-            {steps.map((step, index) => {
-              const isLast = index === steps.length - 1;
+            {positionedSteps.map((step, index) => {
+              const isLast = index === positionedSteps.length - 1;
               const delay = 200 + index * 200;
               return (
                 <div
@@ -385,7 +488,7 @@ export default function HowWeTeach() {
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     >
-                      {icons[step.id]}
+                      {getIcon(step.id, index)}
                     </svg>
                   </div>
                   <div className="pt-0.5">

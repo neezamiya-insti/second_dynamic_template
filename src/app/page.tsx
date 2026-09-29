@@ -16,7 +16,7 @@ export default function Home() {
  <HeroSection/>
  <AboutJourney/>
 
- <SchoolHero/>
+ {/* <SchoolHero/> */}
  
  <CoursesSection/>
  <PrincipalMessageSection/>
